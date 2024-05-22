@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
@@ -17,6 +18,9 @@ import About from "./page/About.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 
+
+import Notes from './page/SomeNotes.jsx'
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState({
@@ -26,6 +30,7 @@ function App() {
   });
 
   return (
+
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -43,6 +48,7 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
+
 }
 
 export default App;
