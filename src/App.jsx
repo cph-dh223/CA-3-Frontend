@@ -15,14 +15,18 @@ import {
 } from "react-router-dom";
 
 import About from "./page/About.jsx";
+import Notes from "./page/SomeNotes.jsx";
+import PageNotFound from "./page/PageNotFound.jsx";
+import Login from "./page/Login.jsx";
+import AddNote from "./page/AddNote.jsx";
+import AppLayout from "./layout/AppLayout.jsx";
+import CreateUser from "./page/CreateUser.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 
 
-import Notes from './page/SomeNotes.jsx'
-
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState({
     email: "",
     name: "",
@@ -33,22 +37,41 @@ function App() {
 
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route index element={<Navigate to="/login" />} />
 
-        <Route element = {<ProtectedRoutes isAuthenticated={isAuthenticated}/>} >
-          <Route element={<AppLayout />}>
+        <Route
+          path="/login"
+          element={
+            <Login
+              setIsLoggedIn={setIsLoggedIn}
+              setLoggedInUser={setLoggedInUser}
+            />
+          }
+        />
+        <Route path="/createUser" element={<CreateUser />} />
+
+        <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
+          <Route
+            element={
+              <AppLayout
+                setIsLoggedIn={setIsLoggedIn}
+                loggedInUser={loggedInUser}
+                setLoggedInUser={setLoggedInUser}
+              />
+            }
+          >
             <Route path="/notes" element={<Notes />} />
-            <Route path="/about" element={<About />} />
-
-            <Route path="/AddNote" element={<AddNote />} />
 
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Route>
+
+        <Route path="/about" element={<About />} />
+
+        <Route path="/addNote" element={<AddNote />} />
       </Routes>
     </BrowserRouter>
   );
-
 }
 
 export default App;
