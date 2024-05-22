@@ -87,6 +87,9 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
           <MenuItem>
             <StyledNavLink to="/about">About</StyledNavLink>
           </MenuItem>
+          <MenuItem>
+            <StyledNavLink to="/myNotes">My Notes</StyledNavLink>
+          </MenuItem>
 
           <MenuItem>
             <LogoutButton type="button" onClick={handleLogout}>

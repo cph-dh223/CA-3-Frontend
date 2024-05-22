@@ -23,8 +23,7 @@ import CreateUser from "./features/CreateUser.jsx";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 
-
-import Notes from './page/SomeNotes.jsx'
+import MyNotes from "./page/MyNotes.jsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -52,24 +51,29 @@ function App() {
         <Route path="/createUser" element={<CreateUser />} />
 
         <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
-          <Route
+         
+          
+            <Route path="/notes" element={<Notes />} />
+
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
+        
+
+        <Route
             element={
               <AppLayout
                 setIsLoggedIn={setIsLoggedIn}
                 loggedInUser={loggedInUser}
                 setLoggedInUser={setLoggedInUser}
-              />
-            }
-          >
-            <Route path="/notes" element={<Notes />} />
-
-            <Route path="*" element={<PageNotFound />} />
-          </Route>
-        </Route>
+              />}>
 
         <Route path="/about" element={<About />} />
 
         <Route path="/addNote" element={<AddNote />} />
+
+        <Route path="/myNotes" element={<MyNotes />} />
+        </Route>
+
       </Routes>
     </BrowserRouter>
   );

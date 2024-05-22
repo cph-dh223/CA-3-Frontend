@@ -1,4 +1,4 @@
-import MainNav from "./MainNav";
+import MainNav from "./MainNav.jsx";
 
 function Header({setIsLoggedIn, loggedInUser, setLoggedInUser}) {
     return (
