@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PageNotFound() {
+function CreateUser() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function PageNotFound() {
   )
 }
 
-export default PageNotFound
+export default CreateUser

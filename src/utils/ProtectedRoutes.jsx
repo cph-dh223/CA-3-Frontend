@@ -2,20 +2,20 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function ProtectedRoutes({ isAuthenticated, children }) {
+function ProtectedRoutes({isLoggedIn, children }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (!isLoggedIn) {
             navigate('/login')
         }
-    }, [isAuthenticated, navigate])
-    if (isAuthenticated) return (<>{children}</>);
+    }, [isLoggedIn, navigate])
+    if (isLoggedIn) return (<>{children}</>);
 }
 
 export default ProtectedRoutes;
 
 ProtectedRoutes.protoTypes = {
     children: PropTypes.node.isRequired,
-    isAuthenticated: PropTypes.bool
+    isLoggedIn: PropTypes.bool
 }
