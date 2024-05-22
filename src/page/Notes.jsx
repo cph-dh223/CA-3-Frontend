@@ -32,6 +32,7 @@ const StyledImage = styled.img`
 
 function Notes() {
   return (
+    <>
     <CenteredDiv>
       <StyledImage src="https://us.123rf.com/450wm/tartila/tartila1901/tartila190100004/126480881-note-di-carta-adesivo-per-appunti-vista-dall-alto-o-carta-adesiva-per-appunti-carta-da-lettere.jpg?ver=6" alt="Note" />
       <ButtonContainer>
@@ -43,6 +44,7 @@ function Notes() {
         </StyledButton>
       </ButtonContainer>
     </CenteredDiv>
+    </>
   );
 }
 

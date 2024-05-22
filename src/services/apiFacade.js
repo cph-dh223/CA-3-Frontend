@@ -1,31 +1,35 @@
-export function fetchData(url, callback, method, body) {
+import { BASE_URL_DEV } from "../utils/globalVariables";
 
-    const headers =
-        {
-            'Accept': 'application/json'
-        }
 
-    if (method === 'POST' || method === 'PUT') {
-        headers['Content-Type'] = 'application/json'
+
+const login = async (username, password) => {
+
+    try {
+      const result = await fetch(`${BASE_URL_DEV}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: username,
+          password: password,
+        }),
+      });
+  
+      const data = await result.json();
+  
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        return data;
+      }else{
+        //console.log(data);
+        return data;
+      }
+
+    } catch (e) {
+      console.log(e);
     }
+  };
 
-    const options = {
-        method,
-        headers
-    }
+  export {login};
 
-    if (body) {
-        options.body = JSON.stringify(body);
-    }
-
-    fetch(url, options)
-        .then(res => res.json())
-        .then(data => callback(data))
-        .catch(err => {
-            if (err.status) {
-                err.fullError.then(e => console.log(e.detail))
-            } else {
-                console.log("Network error");
-            }
-        })
-}
