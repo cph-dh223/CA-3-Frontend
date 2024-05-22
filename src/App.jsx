@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
@@ -20,7 +19,9 @@ import PageNotFound from "./page/PageNotFound.jsx";
 import Login from "./page/Login.jsx";
 import AddNote from "./page/AddNote.jsx";
 import AppLayout from "./layout/AppLayout.jsx";
-import CreateUser from "./page/CreateUser.jsx";
+
+import CreateUser from "./features/CreateUser.jsx";
+
 
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 
