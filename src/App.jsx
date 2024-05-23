@@ -21,6 +21,7 @@ import AddNote from "./page/AddNote.jsx";
 import AppLayout from "./layout/AppLayout.jsx";
 import CreateUser from "./features/CreateUser.jsx";
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
+import UserOverview from "./page/UserOverview.jsx";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -48,7 +49,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
 
         <Route path="/addNote" element={<AddNote />} />
-        
+
         <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
           <Route
             element={
@@ -59,10 +60,9 @@ function App() {
               />
             }
           >
+            <Route path="/adminPage" element={<UserOverview />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/about" element={<About />} />
-            
-            
           </Route>
         </Route>
       </Routes>
