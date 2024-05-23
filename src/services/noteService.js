@@ -25,14 +25,19 @@ const readAllNotes = async () => {
     try {
         const token = localStorage.getItem("token")
 
-        const result = await fetch(`${BASE_URL}/notes`, {
+
+        if (token){
+        const result = await fetch(`${BASE_URL}/notes/`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
         });
 
-        return await result.json();
+        const theResult = await result.json();
+        
+        return theResult;
+    }
 
     } catch (e) {
         console.log(e);

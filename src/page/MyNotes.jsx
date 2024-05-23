@@ -44,12 +44,12 @@ const NoteWrapper = styled.div`
   background-color: ${() => '#' + Math.floor(Math.random()*16777215).toString(16)};
 `;
 
-const Note = ({ note, index }) => {
+const Note = ({note, key}) => {
   const [edit, setEdit] = useState(false);
 
   return (
-    <NoteWrapper>
-      <EditButton index={index} onClick={() => setEdit(!edit)}>
+    <NoteWrapper key= {key}>
+      <EditButton  onClick={() => setEdit(!edit)}>
         {edit ? 'Stop Editing' : 'Edit Note'}
       </EditButton>
       <NoteDiv contentEditable={edit}>{note}</NoteDiv>
@@ -57,14 +57,21 @@ const Note = ({ note, index }) => {
   );
 };
 
+
 function MyNotes() {
 
 
   const [notes, setNotes] = useState(['Note 1', 'Note 2', 'Note 3' , 'Note 4']);
 
-  useEffect(() => {
-      const allNotes = readAllNotes();
+  const fetchAllNotes = async ()=>{
+    const allNotes = await readAllNotes();
+    console.log(allNotes);
       setNotes(allNotes);
+  }
+
+  useEffect(() => {
+      fetchAllNotes();
+    
 
   }, []);
 
@@ -72,8 +79,8 @@ function MyNotes() {
     <PageContainer>
       <Header>My Notes</Header>
       <NoteContainer>
-        {notes.map((note, index) => (
-          <Note key={index} note={note.content} index={index} />
+        {notes.map((note) => (
+          <Note key={note.id} note={note.content} />
         ))}
       </NoteContainer>
     </PageContainer>

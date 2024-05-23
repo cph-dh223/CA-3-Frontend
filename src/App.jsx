@@ -1,7 +1,7 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import notepadLogo from "/notepadLogo.svg"
+import notepadLogo from "/notepadLogo.svg";
 
 import {
   BrowserRouter,
@@ -35,7 +35,6 @@ function App() {
   });
 
   return (
-
     <BrowserRouter>
       <Routes>
         <Route index element={<Navigate to="/login" />} />
@@ -52,33 +51,31 @@ function App() {
         <Route path="/createUser" element={<CreateUser />} />
 
         <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
-         
-          
-            <Route path="/notes" element={<Notes />} />
-
-            <Route path="*" element={<PageNotFound />} />
-          </Route>
-        
-
-        <Route
+          <Route
             element={
               <AppLayout
                 setIsLoggedIn={setIsLoggedIn}
                 loggedInUser={loggedInUser}
                 setLoggedInUser={setLoggedInUser}
-              />}>
+              />
+            }
+          >
+            <Route path="/notes" element={<Notes />} />
+            <Route path="/myNotes" element={<MyNotes />} />
+            <Route />
 
-        <Route path="/about" element={<About />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Route>
 
-        <Route path="/addNote" element={<AddNote />} />
+          <Route path="/about" element={<About />} />
 
-        <Route path="/myNotes" element={<MyNotes />} />
+          <Route path="/addNote" element={<AddNote />} />
+
+          
         </Route>
-
       </Routes>
     </BrowserRouter>
   );
-
 }
 
 export default App;
