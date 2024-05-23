@@ -17,19 +17,18 @@ const searchByTitle = async (seachString) => {
         console.log(e);
     }
 }
-const sortByCategory = async () => {
+const sortByCategory = () => {
     return sortByFetch('category')
 }
 
-const sortByTitle = async () => {
+const sortByTitle = () => {
     return sortByFetch('title')
 }
 
 const sortByDate = () => { 
     return sortByFetch('date')
 }
-
-const sortByFetch = async (endURL) => {
+onst sortByFetch = async (endURL) => {
     try {
         const token = localStorage.getItem("token")
 
