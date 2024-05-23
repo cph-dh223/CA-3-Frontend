@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { readAllNotes } from '../services/noteService';
 
 const PageContainer = styled.div`
   display: flex;
@@ -57,14 +58,22 @@ const Note = ({ note, index }) => {
 };
 
 function MyNotes() {
+
+
   const [notes, setNotes] = useState(['Note 1', 'Note 2', 'Note 3' , 'Note 4']);
+
+  useEffect(() => {
+      const allNotes = readAllNotes();
+      setNotes(allNotes);
+
+  }, []);
 
   return (
     <PageContainer>
       <Header>My Notes</Header>
       <NoteContainer>
         {notes.map((note, index) => (
-          <Note key={index} note={note} index={index} />
+          <Note key={index} note={note.content} index={index} />
         ))}
       </NoteContainer>
     </PageContainer>
