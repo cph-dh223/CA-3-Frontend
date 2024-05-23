@@ -61,4 +61,4 @@ const StyledList = styled.ul`
 
 const StyledListItems = styled.li`
     margin-bottom: 10px;
-    ;`
+;`
