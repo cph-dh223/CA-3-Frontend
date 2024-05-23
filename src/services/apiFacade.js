@@ -11,18 +11,10 @@ function createUser(userDetailsEntered) {
     },
     body: JSON.stringify(userDetailsEntered), 
   })
-    .then((response) => {
-      
-      if (!response.ok) {
-      
-        throw new Error(`HTTP error! Status: ${response.status}, Message: ${response.msg}`);
-      }
-      
-      return response.json(); 
-    })
+    
     .then((result) => {
      
-      return result; 
+      return result.json(); 
     })
     .catch((error) => {
       
