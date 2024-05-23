@@ -1,6 +1,7 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
+import notepadLogo from "/notepadLogo.svg"
 
 import {
   BrowserRouter,
@@ -14,7 +15,7 @@ import {
 } from "react-router-dom";
 
 import About from "./page/About.jsx";
-import Notes from "./page/SomeNotes.jsx";
+import Notes from "./page/Notes.jsx";
 import PageNotFound from "./page/PageNotFound.jsx";
 import Login from "./page/Login.jsx";
 import AddNote from "./page/AddNote.jsx";
