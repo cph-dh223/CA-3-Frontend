@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
+import notepadLogo from "/notepadLogo.svg"
 
 import {
   BrowserRouter,
@@ -20,7 +21,8 @@ import Login from "./page/Login.jsx";
 import AddNote from "./page/AddNote.jsx";
 import AppLayout from "./layout/AppLayout.jsx";
 import CreateUser from "./features/CreateUser.jsx";
-import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
+
+import ProtectedRoutes from "./utils/ProtectedRoutes";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,9 +33,11 @@ function App() {
   });
 
   return (
+
     <BrowserRouter>
       <Routes>
         <Route index element={<Navigate to="/login" />} />
+
         <Route
           path="/login"
           element={
@@ -45,10 +49,6 @@ function App() {
         />
         <Route path="/createUser" element={<CreateUser />} />
 
-        <Route path="*" element={<PageNotFound />} />
-
-        <Route path="/addNote" element={<AddNote />} />
-        
         <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
           <Route
             element={
@@ -60,14 +60,18 @@ function App() {
             }
           >
             <Route path="/notes" element={<Notes />} />
-            <Route path="/about" element={<About />} />
-            
-            
+
+            <Route path="*" element={<PageNotFound />} />
           </Route>
         </Route>
+
+        <Route path="/about" element={<About />} />
+
+        <Route path="/addNote" element={<AddNote />} />
       </Routes>
     </BrowserRouter>
   );
+
 }
 
 export default App;
