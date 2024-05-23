@@ -28,7 +28,7 @@ const sortByTitle = () => {
 const sortByDate = () => { 
     return sortByFetch('date')
 }
-onst sortByFetch = async (endURL) => {
+const sortByFetch = async (endURL) => {
     try {
         const token = localStorage.getItem("token")
 
