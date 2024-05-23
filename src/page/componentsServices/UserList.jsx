@@ -9,7 +9,7 @@ export default function UserList({ users, deleteUser, setUserToEdit }) {
         </tr>
       </thead>
       <tbody>
-        {users.map((user) => (
+        {Array.isArray(users) && users.map((user) => (
           <tr key={user.email}>
             <td>{user.email}</td>
             <td> {user.roles.join(", ")} </td>
