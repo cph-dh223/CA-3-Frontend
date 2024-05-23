@@ -1,8 +1,75 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
+//import { fetchData } from "../services/apiFacade.js";
+import { BASE_URL_DEV } from "../utils/globalVariables.js";
 //import { login } from "../services/apiFacade.js";
-//import { getUserWithRolesFromToken } from "../services/getUserInfoFromToken.js";
+import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
+import { login } from "../services/apiFacade.js";
+
+function Login({ setIsLoggedIn, setLoggedInUser }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    
+    event.preventDefault();
+
+    try {
+    
+      const data = await login(username, password);
+
+      if (data.token) {
+        const userDetails = getUserWithRolesFromToken(data.token);
+
+        //console.log(userDetails);
+        setIsLoggedIn(true);
+        setLoggedInUser(userDetails);
+        //console.log('Login successful:', userDetails);
+        navigate('/notes');
+
+      } else {
+
+        //console.log("Login failed." + data.Message);
+        //setErrorMessage(data.Message)
+        setErrorMessage(data.msg)
+      }
+
+    } catch (err) {
+      console.log("Some error happened when logging in. The error: " + err);
+    }
+  }
+    
+   
+  return (
+    <>
+      <LoginPage>
+        <LoginContainer>
+          <h1>Login</h1>
+          <Form onSubmit={handleLogin}>
+            <Input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <LoginButton type="submit">Login</LoginButton>
+          </Form>
+          {errorMessage!= "" ? <p>ERROR: {errorMessage}</p> : <></>}
+        </LoginContainer>
+      </LoginPage>
+    </>
+  );
+}
 
 const LoginPage = styled.div`
   display: flex;
@@ -44,62 +111,5 @@ const LoginButton = styled.button`
 
   margin-top: 2vw;
 `;
-
-function Login({ setIsLoggedIn, setLoggedInUser }) {
-  
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  
-  const navigate = useNavigate();
-
-  const handleLogin = async (event) => {
-
-    event.preventDefault();
-/*
-    try {
-    
-      const token = await login(username, password);
-
-      if (token) {
-        const userDetails = getUserWithRolesFromToken(token);
-        setIsLoggedIn(true);
-        setLoggedInUser(userDetails);
-        console.log('Login successful:', userDetails);
-        navigate('/home');
-
-      } else {
-        console.log("Login failed. Check credentials");
-      }
-    } catch (err) {
-      console.log("Some error happened. The error: " + err);
-    }
-    */
-  };
-
-  return (
-    <>
-      <LoginPage>
-        <LoginContainer>
-          <h1>Login</h1>
-          <Form onSubmit={handleLogin}>
-            <Input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <LoginButton type="submit">Login</LoginButton>
-          </Form>
-        </LoginContainer>
-      </LoginPage>
-    </>
-  );
-}
 
 export default Login;

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function ProtectedRoutes({isLoggedIn, children }) {
+function ProtectedRoutes({isLoggedIn}) {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -10,12 +10,15 @@ function ProtectedRoutes({isLoggedIn, children }) {
             navigate('/login')
         }
     }, [isLoggedIn, navigate])
-    if (isLoggedIn) return (<>{children}</>);
+    if (isLoggedIn) return (<Outlet/>);
+    else{
+        return null;
+    }
 }
 
 export default ProtectedRoutes;
 
-ProtectedRoutes.protoTypes = {
-    children: PropTypes.node.isRequired,
+ProtectedRoutes.propTypes = {
+
     isLoggedIn: PropTypes.bool
 }
