@@ -1,7 +1,6 @@
 import { BASE_URL } from "../utils/globalVariables";
 
 
-
 function createUser(userDetailsEntered) {
   // Initiate the fetch request
 
@@ -16,7 +15,7 @@ function createUser(userDetailsEntered) {
       
       if (!response.ok) {
       
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}, Message: ${response.msg}`);
       }
       
       return response.json(); 
@@ -33,7 +32,6 @@ function createUser(userDetailsEntered) {
 }
 
 
-
 const login = async (username, password) => {
   try {
     const result = await fetch(`${BASE_URL}/auth/login`, {
@@ -47,7 +45,6 @@ const login = async (username, password) => {
       }),
     });
 
-    const data = await result.json();
 
     if (data.token) {
       localStorage.setItem("token", data.token);
