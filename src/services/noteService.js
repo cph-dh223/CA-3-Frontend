@@ -113,8 +113,7 @@ const sortByFetch = async (endURL) => {
             }
         });
 
-        const data = await result.json();
-        return data
+        return await result.json();
     } catch (e) {
         console.log(e);
     }
