@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
 //import { fetchData } from "../services/apiFacade.js";
-import { BASE_URL_DEV } from "../utils/globalVariables.js";
+import { BASE_URL } from "../utils/globalVariables.js";
 //import { login } from "../services/apiFacade.js";
 import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
 import { login } from "../services/apiFacade.js";
