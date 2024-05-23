@@ -16,13 +16,14 @@ import {
 import About from "./page/About.jsx";
 import Notes from "./page/Notes.jsx";
 import PageNotFound from "./page/PageNotFound.jsx";
-import Login from "./page/Login.jsx";
+import Login from "./features/Login.jsx";
 import AddNote from "./page/AddNote.jsx";
 import AppLayout from "./layout/AppLayout.jsx";
 import CreateUser from "./features/CreateUser.jsx";
 import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
 
 function App() {
+  const [userJustCreated, setUserJustCreated] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState({
     email: "",
@@ -40,10 +41,11 @@ function App() {
             <Login
               setIsLoggedIn={setIsLoggedIn}
               setLoggedInUser={setLoggedInUser}
+              userJustCreated={userJustCreated} setUserJustCreated={setUserJustCreated}
             />
           }
         />
-        <Route path="/createUser" element={<CreateUser />} />
+        <Route path="/createUser" element={<CreateUser setUserJustCreated={setUserJustCreated}/>} />
 
         <Route path="*" element={<PageNotFound />} />
 
