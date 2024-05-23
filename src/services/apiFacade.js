@@ -37,6 +37,7 @@ const login = async (username, password) => {
       }),
     });
 
+    const data = await result.json();
 
     if (data.token) {
       localStorage.setItem("token", data.token);
