@@ -1,11 +1,11 @@
-import { BASE_URL_DEV } from "../utils/globalVariables";
+import { BASE_URL } from "../utils/globalVariables";
 
 
 
 const login = async (username, password) => {
 
     try {
-      const result = await fetch(`${BASE_URL_DEV}/auth/login`, {
+      const result = await fetch(`${BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
