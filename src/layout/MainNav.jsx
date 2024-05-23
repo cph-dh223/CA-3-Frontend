@@ -48,7 +48,7 @@ const MenuItem = styled.li`
 
 const LogoutButton = styled.button`
 
-  background_color: var(--turqois5)
+  background_color: var(--turqois5);
   color: var(--gold1);
 `;
 
