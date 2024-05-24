@@ -151,4 +151,4 @@ const sortByFetch = async (endURL) => {
     }
 }
 
-export { searchByTitle, sortByCategory, sortByTitle, sortByDate, createNote, readNote, updateNote, deleteNote};
+export { searchByTitle, sortByCategory, sortByTitle, sortByDate, createNote, readNote, updateNote, deleteNote, readAllNotes};

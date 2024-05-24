@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { StyledBackButton } from '../styles/GlobalStyles';
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -57,7 +60,9 @@ const StyleTextArea = styled.textarea`
   height: 200px;
 `;
 
+
 function AddNote() {
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
   const [topic, setTopic] = useState('');
@@ -86,6 +91,9 @@ function AddNote() {
 
   return (
     <Container>
+    <StyledBackButton onClick={()=>(navigate("/notes"))}>
+      Go back
+    </StyledBackButton>
       <form onSubmit={handleSubmit}>
           <StyleInput type="text" value={title} onChange={handleTitleChange} placeholder="Titel" required/>
           <StyleSelect value={topic} onChange={handleTopicChange} required>

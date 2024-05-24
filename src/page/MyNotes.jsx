@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { readAllNotes } from '../services/noteService';
+import { useNavigate } from 'react-router-dom';
+import { StyledBackButton } from '../styles/GlobalStyles';
+
 
 const PageContainer = styled.div`
   display: flex;
@@ -44,6 +47,7 @@ const NoteWrapper = styled.div`
   background-color: ${() => '#' + Math.floor(Math.random()*16777215).toString(16)};
 `;
 
+
 const Note = ({note}) => {
   const [edit, setEdit] = useState(false);
 
@@ -60,7 +64,7 @@ const Note = ({note}) => {
 
 function MyNotes() {
 
-
+  const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
 
   const fetchAllNotes = async ()=>{
@@ -76,6 +80,10 @@ function MyNotes() {
 
   return (
     <PageContainer>
+
+     <StyledBackButton onClick={()=>(navigate("/notes"))}>
+      Go back
+    </StyledBackButton>
       <Header>My Notes</Header>
       <NoteContainer>
 

@@ -46,11 +46,15 @@ function App() {
             <Login
               setIsLoggedIn={setIsLoggedIn}
               setLoggedInUser={setLoggedInUser}
-              userJustCreated={userJustCreated} setUserJustCreated={setUserJustCreated}
+              userJustCreated={userJustCreated}
+              setUserJustCreated={setUserJustCreated}
             />
           }
         />
-        <Route path="/createUser" element={<CreateUser setUserJustCreated={setUserJustCreated}/>} />
+        <Route
+          path="/createUser"
+          element={<CreateUser setUserJustCreated={setUserJustCreated} />}
+        />
 
         <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
           <Route
@@ -65,16 +69,13 @@ function App() {
             <Route path="/adminPage" element={<UserOverview />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/myNotes" element={<MyNotes />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/addNote" element={<AddNote />} />
+            
             <Route />
 
             <Route path="*" element={<PageNotFound />} />
           </Route>
-
-          <Route path="/about" element={<About />} />
-
-          <Route path="/addNote" element={<AddNote />} />
-
-          
         </Route>
       </Routes>
     </BrowserRouter>
