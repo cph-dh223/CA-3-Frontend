@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
 import { login } from "../services/apiFacade.js";
+import backgroundImage from '/src/img/background01.jpg'; //CHANGE BACKGROUND IMAGE
 
 function Login({
   setIsLoggedIn,
@@ -36,72 +37,150 @@ function Login({
   };
 
   return (
-    <LoginPage>
-      {userJustCreated && (
-        <p style={{ color: "green", fontSize: "2vw" }}>
-          You have succesfully created a user! You can now log in
-        </p>
-      )}
+    <>
+      <LoginWrapper>
+        <LoginPage>
+          {userJustCreated && (
+            <p style={{ color: "green", fontSize: "2vw" }}>
+              You have succesfully created a user! You can now log in
+            </p>
+          )}
 
-      <h1>Login</h1>
+          <Styledwrapper>
+            <h1>Login</h1>
+            <form onSubmit={handleLogin}>
+              <StyledInputBox>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <i class="bx bxs-user"></i>
+              </StyledInputBox>
+              <StyledInputBox>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <i class="bx bxs-lock-alt"></i>
+              </StyledInputBox>
+              <StyledButton type="submit">Login</StyledButton>
+            </form>
 
-      <form
-        onSubmit={handleLogin}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          marginTop: "1.4vw",
-        }}
-      >
-        <LoginContainer>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </LoginContainer>
-        <LoginContainer>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </LoginContainer>
-        <StyledButton type="submit">Login</StyledButton>
-      </form>
+            <StyledRegisterLink>
+              <p>
+                Don't have an account?
+                <a href={"/createUser"}> Register</a>
+              </p>
+            </StyledRegisterLink>
 
-      <StyledButton onClick={() => navigate("/createUser")}>
-        Create user
-      </StyledButton>
-
-      {errorMessage && <p>ERROR: {errorMessage}</p>}
-    </LoginPage>
+            {errorMessage && <p>ERROR: {errorMessage}</p>}
+          </Styledwrapper>
+        </LoginPage>
+      </LoginWrapper>
+    </>
   );
 }
 
+const Styledwrapper = styled.div`
+  width: 420px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+  
+
+  h1 {
+    font-size: 36px;
+    text-align: center;
+  }
+`;
+
+const LoginWrapper = styled.div`
+  * {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+`;
+
 const LoginPage = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 8vw;
+  min-height: 100vh;
+  background: url(${backgroundImage}) no-repeat; 
+  background-size: cover;
+  background-position: center;
+  
+
 `;
 
 const StyledButton = styled.button`
-  padding: 1em;
-  background: hsl(233deg 36% 38%);
-  color: hsl(0 0 100);
+  width: 100%;
+  height: 45px;
+  background: #fff;
   border: none;
-  border-radius: 30px;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
   font-weight: 600;
-  width: 30vw;;
-margin-top: 1vw;
 `;
 
-const LoginContainer = styled.div`
+const StyledInputBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
 
+  input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px;
+    font-size: 18px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+
+    &::placeholder {
+      color: white;
+    }
+  }
+
+  i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+  }
+`;
+
+const StyledRegisterLink = styled.div`
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15px;
+
+  p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  p a:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default Login;
