@@ -59,7 +59,6 @@ const Login = styled.div`
 const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
   const navigate = useNavigate();
 
-  console.log("test");
 
   const handleLogout = () => {
     setIsLoggedIn(false);

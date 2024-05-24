@@ -1,3 +1,4 @@
+
 import { BASE_URL } from "../utils/globalVariables";
 
 const createNote = async (note) => {
@@ -99,9 +100,10 @@ const deleteNote = async (note) => {
         console.log(e);
     }
 }
+
 const searchByTitle = async (seachString) => {
-    try {
-        const token = localStorage.getItem("token")
+  try {
+    const token = localStorage.getItem("token");
 
         const result = await fetch(`${BASE_URL_DEV}/user/notes/search/${seachString}`, {
             headers: {
@@ -115,28 +117,33 @@ const searchByTitle = async (seachString) => {
     } catch (e) {
         console.log(e);
     }
-}
+};
+
 const sortByCategory = () => {
-    return sortByFetch('category')
-}
+  return sortByFetch("category");
+};
 
 const sortByTitle = () => {
-    return sortByFetch('title')
-}
+  return sortByFetch("title");
+};
 
 const sortByDate = () => {
-    return sortByFetch('date')
-}
-const sortByFetch = async (endURL) => {
-    try {
-        const token = localStorage.getItem("token")
 
-        const result = await fetch(`${BASE_URL_DEV}/user/notes/sort/${endURL}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
+    return sortByFetch('date')
+};
+
+
+const sortByFetch = async (endURL) => {
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const result = await fetch(`${BASE_URL}/user/notes/sort/${endURL}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
         return await result.json();
     } catch (e) {
@@ -144,4 +151,4 @@ const sortByFetch = async (endURL) => {
     }
 }
 
-export { searchByTitle, sortByCategory, sortByTitle, sortByDate, readAllNotes }
+export { searchByTitle, sortByCategory, sortByTitle, sortByDate, createNote, readNote, updateNote, deleteNote};

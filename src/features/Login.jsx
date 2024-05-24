@@ -7,19 +7,19 @@ import { BASE_URL } from "../utils/globalVariables.js";
 import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
 import { login } from "../services/apiFacade.js";
 
-function Login({ setIsLoggedIn, setLoggedInUser }) {
+function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCreated}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
-    
     event.preventDefault();
 
-    try {
     
+
+    try {
       const data = await login(username, password);
 
       if (data.token) {
@@ -28,27 +28,37 @@ function Login({ setIsLoggedIn, setLoggedInUser }) {
         //console.log(userDetails);
         setIsLoggedIn(true);
         setLoggedInUser(userDetails);
+        setUserJustCreated(false);
+
         //console.log('Login successful:', userDetails);
-        navigate('/notes');
-
+        navigate("/notes");
       } else {
-
         //console.log("Login failed." + data.Message);
         //setErrorMessage(data.Message)
-        setErrorMessage(data.msg)
+        setErrorMessage(data.msg);
       }
-
     } catch (err) {
       console.log("Some error happened when logging in. The error: " + err);
     }
-  }
-    
-   
+  };
+
   return (
     <>
       <LoginPage>
+      
         <LoginContainer>
+        {userJustCreated ? (
+            <>
+              <StyledCreatedUserParagraf>
+                You have succesfully created a user! You can now log in
+              </StyledCreatedUserParagraf>
+            </>
+          ) : (
+            <></>
+          )}
+
           <h1>Login</h1>
+          
           <Form onSubmit={handleLogin}>
             <Input
               type="text"
@@ -64,12 +74,21 @@ function Login({ setIsLoggedIn, setLoggedInUser }) {
             />
             <LoginButton type="submit">Login</LoginButton>
           </Form>
-          {errorMessage!= "" ? <p>ERROR: {errorMessage}</p> : <></>}
+
+          <button onClick={()=> (navigate("/createUser"))}>Create user</button>
+
+          {errorMessage != "" ? <p>ERROR: {errorMessage}</p> : <></>}
+
         </LoginContainer>
       </LoginPage>
     </>
   );
 }
+
+const StyledCreatedUserParagraf = styled.p`
+  color: green;
+  font-size: 2vw;
+`;
 
 const LoginPage = styled.div`
   display: flex;
