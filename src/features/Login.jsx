@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { NavLink, useNavigate } from "react-router-dom";
-//import { fetchData } from "../services/apiFacade.js";
-import { BASE_URL } from "../utils/globalVariables.js";
-//import { login } from "../services/apiFacade.js";
+import { useNavigate } from "react-router-dom";
 import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
 import { login } from "../services/apiFacade.js";
 
-function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCreated}) {
+function Login({
+  setIsLoggedIn,
+  setLoggedInUser,
+  userJustCreated,
+  setUserJustCreated,
+}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -21,17 +23,11 @@ function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCre
 
       if (data.token) {
         const userDetails = getUserWithRolesFromToken(data.token);
-
-        //console.log(userDetails);
         setIsLoggedIn(true);
         setLoggedInUser(userDetails);
         setUserJustCreated(false);
-
-        //console.log('Login successful:', userDetails);
         navigate("/notes");
       } else {
-        //console.log("Login failed." + data.Message);
-        //setErrorMessage(data.Message)
         setErrorMessage(data.msg);
       }
     } catch (err) {
@@ -40,92 +36,72 @@ function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCre
   };
 
   return (
-    <>
-      <LoginPage>
-      
+    <LoginPage>
+      {userJustCreated && (
+        <p style={{ color: "green", fontSize: "2vw" }}>
+          You have succesfully created a user! You can now log in
+        </p>
+      )}
+
+      <h1>Login</h1>
+
+      <form
+        onSubmit={handleLogin}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: "1.4vw",
+        }}
+      >
         <LoginContainer>
-        {userJustCreated ? (
-            <>
-              <StyledCreatedUserParagraf>
-                You have succesfully created a user! You can now log in
-              </StyledCreatedUserParagraf>
-            </>
-          ) : (
-            <></>
-          )}
-
-          <h1>Login</h1>
-          
-          <Form onSubmit={handleLogin}>
-            <Input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <LoginButton type="submit">Login</LoginButton>
-          </Form>
-
-          <button onClick={()=> (navigate("/createUser"))}>Create user</button>
-
-          {errorMessage != "" ? <p>ERROR: {errorMessage}</p> : <></>}
-
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </LoginContainer>
-      </LoginPage>
-    </>
+        <LoginContainer>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </LoginContainer>
+        <StyledButton type="submit">Login</StyledButton>
+      </form>
+
+      <StyledButton onClick={() => navigate("/createUser")}>
+        Create user
+      </StyledButton>
+
+      {errorMessage && <p>ERROR: {errorMessage}</p>}
+    </LoginPage>
   );
 }
 
-const StyledCreatedUserParagraf = styled.p`
-  color: green;
-  font-size: 2vw;
-`;
-
 const LoginPage = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8vw;
+`;
 
-  border: solid red;
+const StyledButton = styled.button`
+  padding: 1em;
+  background: hsl(233deg 36% 38%);
+  color: hsl(0 0 100);
+  border: none;
+  border-radius: 30px;
+  font-weight: 600;
+  width: 30vw;;
+margin-top: 1vw;
 `;
 
 const LoginContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
-  margin-top: 8vw;
-
-  border: solid blue;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  margin-top: 1.4vw;
-
-  border: solid lightblue;
-`;
-
-const Input = styled.input`
-  width: 20vw;
-  height: 3vw;
-
-  margin-top: 1.2vw;
-`;
-
-const LoginButton = styled.button`
-  width: 6vw;
-  height: 1.8vw;
-
-  margin-top: 2vw;
 `;
 
 export default Login;
