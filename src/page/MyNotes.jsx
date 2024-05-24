@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { readAllNotes } from '../services/noteService';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { readAllNotes } from "../services/noteService";
 
 const PageContainer = styled.div`
   display: flex;
@@ -18,12 +18,13 @@ const Header = styled.h1`
 const NoteContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   justify-content: space-between;
   width: 100%;
 `;
 
 const NoteDiv = styled.div`
+border: solid red;
   flex-grow: 1;
 `;
 
@@ -32,55 +33,72 @@ const EditButton = styled.button`
   color: #060606;
 `;
 
-const NoteWrapper = styled.div`
+const ActualNote = styled.div`
+
   display: flex;
   flex-direction: column;
   border: 1px solid #000000;
-  width: calc(25% - 10px);
   box-sizing: border-box;
-  min-height: 200px;
+  width: 100%;
+  height: 100%;
   padding: 10px;
   overflow: auto;
-  background-color: ${() => '#' + Math.floor(Math.random()*16777215).toString(16)};
+  background-color: ${() =>
+    "#" + Math.floor(Math.random() * 16777215).toString(16)};
 `;
 
-const Note = ({note}) => {
+const StyledMainNoteDiv = styled.div`
+  border: solid black;
+  border-width: thick;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 300px;
+  width: calc(25% - 10px);
+`;
+
+const StyledTitleDiv = styled.div`
+    border: solid purple;
+`
+
+
+const Note = ({ note, title }) => {
   const [edit, setEdit] = useState(false);
 
   return (
-    <NoteWrapper >
-      <EditButton  onClick={() => setEdit(!edit)}>
-        {edit ? 'Stop Editing' : 'Edit Note'}
-      </EditButton>
-      <NoteDiv  contentEditable={edit}>{note}</NoteDiv>
-    </NoteWrapper>
+    <StyledMainNoteDiv>
+    <StyledTitleDiv>{title}</StyledTitleDiv>
+      <ActualNote>
+        <EditButton onClick={() => setEdit(!edit)}>
+          {edit ? "Stop Editing" : "Edit Note"}
+        </EditButton>
+        <NoteDiv contentEditable={edit}>{note}</NoteDiv>
+      </ActualNote>
+    </StyledMainNoteDiv>
   );
 };
 
-
 function MyNotes() {
-
-
   const [notes, setNotes] = useState([]);
 
-  const fetchAllNotes = async ()=>{
+  const fetchAllNotes = async () => {
     const allNotes = await readAllNotes();
     console.log(allNotes);
-      setNotes(allNotes);
-  }
+    setNotes(allNotes);
+  };
 
   useEffect(() => {
-      fetchAllNotes();
-    
+    fetchAllNotes();
   }, []);
 
   return (
     <PageContainer>
       <Header>My Notes</Header>
-      <NoteContainer>
 
+      <StyledSearchBar></StyledSearchBar>
+      <NoteContainer>
         {notes.map((note) => (
-          <Note key={note.id} note={note.content} />
+          <Note key={note.id} note={note.content} title={note.title} />
         ))}
       </NoteContainer>
     </PageContainer>
