@@ -2,7 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
+  font-size: 2rem;
   background-color: #000000;
+  border-radius: 8px;
+  border-style: none;
   color: #ffffff;
   padding: 15px 100px;
   margin: 20px;
@@ -11,7 +14,7 @@ const StyledButton = styled.button`
 
 const CenteredDiv = styled.div`
   display: flex;
-  justify-content: center;
+  padding: 100px;
   align-items: center;
   height: 100vh;
   flex-direction: column;
@@ -22,10 +25,11 @@ const ButtonContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: row; 
+  margin-top: 30px;
 `;
 
 const StyledImage = styled.img`
-  width: 300px;
+  width: 500px;
   height: auto;
   margin-bottom: 20px;
 `;
@@ -34,7 +38,8 @@ function Notes() {
   return (
     <>
     <CenteredDiv>
-      <StyledImage src="https://us.123rf.com/450wm/tartila/tartila1901/tartila190100004/126480881-note-di-carta-adesivo-per-appunti-vista-dall-alto-o-carta-adesiva-per-appunti-carta-da-lettere.jpg?ver=6" alt="Note" />
+      <h1 style={{fontFamily:"raleway", fontSize: 80, letterSpacing: "20px", fontWeight:300}}>Organize Everyday</h1>
+      <StyledImage/>
       <ButtonContainer>
         <StyledButton>
           My Notes

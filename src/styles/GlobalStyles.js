@@ -28,9 +28,17 @@ const GlobalStyles = createGlobalStyle`
     
 
 *{
+    font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
     margin: 0;
     padding: 0;
     box-sizing: border-box; 
+    background-color: #FAF9F6;
+    
+    
 }
 
 

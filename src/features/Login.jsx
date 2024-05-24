@@ -16,9 +16,6 @@ function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCre
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    
-
     try {
       const data = await login(username, password);
 
