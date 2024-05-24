@@ -48,7 +48,7 @@ const MenuItem = styled.li`
 
 const LogoutButton = styled.button`
 
-  background_color: var(--turqois5)
+  background_color: var(--turqois5);
   color: var(--gold1);
 `;
 
@@ -86,6 +86,9 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
           </MenuItem>
           <MenuItem>
             <StyledNavLink to="/about">About</StyledNavLink>
+          </MenuItem>
+          <MenuItem>
+            <StyledNavLink to="/myNotes">My Notes</StyledNavLink>
           </MenuItem>
 
           <MenuItem>

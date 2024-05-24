@@ -1,3 +1,5 @@
+import { BASE_URL } from "../utils/globalVariables";
+
 const createNote = async (note) => {
     try {
         const token = localStorage.getItem("token")
@@ -13,6 +15,29 @@ const createNote = async (note) => {
         });
 
         return await result.json();
+
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+const readAllNotes = async () => {
+    try {
+        const token = localStorage.getItem("token")
+
+
+        if (token){
+        const result = await fetch(`${BASE_URL}/notes/`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        const theResult = await result.json();
+        
+        return theResult;
+    }
 
     } catch (e) {
         console.log(e);
@@ -119,4 +144,4 @@ const sortByFetch = async (endURL) => {
     }
 }
 
-export { searchByTitle, sortByCategory, sortByTitle, sortByDate }
+export { searchByTitle, sortByCategory, sortByTitle, sortByDate, readAllNotes }
