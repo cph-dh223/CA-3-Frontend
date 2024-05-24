@@ -1,7 +1,4 @@
-
-
-
-return function UserList({ users , deleteUser, updateUser}) {
+export default function UserList({ users, deleteUser, setUserToEdit }) {
   return (
     <table>
       <thead>
@@ -11,18 +8,18 @@ return function UserList({ users , deleteUser, updateUser}) {
           <th></th>
         </tr>
       </thead>
-      {users.map((user) => (
-        <tbody key={user.email}>
-          <tr>
+      <tbody>
+        {Array.isArray(users) && users.map((user) => (
+          <tr key={user.email}>
             <td>{user.email}</td>
-            <td>{user.roles}</td>
+            <td> {user.roles.join(", ")} </td>
             <td>
-              <button onClick={() => deleteUser(user.id)}>Delete</button>
-              <button onClick={() => updateUser(user)}>Edit</button>
+              <button onClick={() => deleteUser(user.email)}>Delete</button>
+              <button onClick={() => setUserToEdit(user)}>Edit</button>
             </td>
           </tr>
-        </tbody>
-      ))}
+        ))}
+      </tbody>
     </table>
   );
 }

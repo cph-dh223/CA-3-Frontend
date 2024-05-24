@@ -21,8 +21,8 @@ import Login from "./features/Login.jsx";
 import AddNote from "./page/AddNote.jsx";
 import AppLayout from "./layout/AppLayout.jsx";
 import CreateUser from "./features/CreateUser.jsx";
-
-import ProtectedRoutes from "./utils/ProtectedRoutes";
+import ProtectedRoutes from "./utils/ProtectedRoutes.jsx";
+import UserOverview from "./page/UserOverview.jsx";
 
 import MyNotes from "./page/MyNotes.jsx";
 
@@ -62,6 +62,7 @@ function App() {
               />
             }
           >
+            <Route path="/adminPage" element={<UserOverview />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/myNotes" element={<MyNotes />} />
             <Route />
