@@ -1,7 +1,14 @@
 import { createGlobalStyle, styled } from "styled-components";
 
-const GlobalStyles = createGlobalStyle`
 
+const StyledBackButton = styled.button`
+  background-color: #51555c;
+  color: #ffffff;
+  padding: 2px;
+`;
+
+
+const GlobalStyles = createGlobalStyle`
 
 :root {
 
@@ -40,3 +47,5 @@ body{
 `;
 
 export default GlobalStyles;
+
+export {StyledBackButton};
