@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
 import { login } from "../services/apiFacade.js";
-import backgroundImage from '/src/img/background01.jpg'; //CHANGE BACKGROUND IMAGE
+import backgroundImage from '/src/img/and-machines-vqTWfa4DjEk-unsplash.jpg'; //CHANGE BACKGROUND IMAGE
 
 function Login({
   setIsLoggedIn,
@@ -40,14 +40,9 @@ function Login({
     <>
       <LoginWrapper>
         <LoginPage>
-          {userJustCreated && (
-            <p style={{ color: "green", fontSize: "2vw" }}>
-              You have succesfully created a user! You can now log in
-            </p>
-          )}
-
           <Styledwrapper>
-            <h1>Login</h1>
+            <h1 style={{fontSize: userJustCreated && ("20px")}}>
+              {userJustCreated ? (<>You're one step away! <br></br>Please log in to access your account</>) : "Login"}</h1>
             <form onSubmit={handleLogin}>
               <StyledInputBox>
                 <input
@@ -77,7 +72,7 @@ function Login({
               </p>
             </StyledRegisterLink>
 
-            {errorMessage && <p>ERROR: {errorMessage}</p>}
+            {errorMessage && <p>{errorMessage}</p>}
           </Styledwrapper>
         </LoginPage>
       </LoginWrapper>
@@ -118,8 +113,6 @@ const LoginPage = styled.div`
   background: url(${backgroundImage}) no-repeat; 
   background-size: cover;
   background-position: center;
-  
-
 `;
 
 const StyledButton = styled.button`

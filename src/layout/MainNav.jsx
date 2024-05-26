@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 
@@ -7,16 +7,22 @@ const Nav = styled.nav`
   justify-content: space-between;
   background: none;
   padding: 20px;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   font-size: x-large;
   text-align: center;
+
+  @media (max-width: 970px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledLi = styled.li`
   display: flex;
   padding-right: 30px;
+
+  @media (max-width: 970px) {
+    padding: 10px 0;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -25,17 +31,23 @@ const StyledNavLink = styled(NavLink)`
   padding: 10px;
   text-decoration: none;
   color: black;
+  transition: background-color 0.2s ease, color 0.2s ease;
 
   &:hover {
-    color: var(--gray2);
+    color: white;
   }
 `;
 
 const Logo = styled(NavLink)`
   color: black;
-  text-align: center; 
   cursor: pointer;
   text-decoration: none;
+  font-size: 35px;
+  font-weight: 600;
+  font-family: "raleway";
+  @media (max-width: 970px) {
+    font-size: 50px;
+  }
 `;
 
 const LogoutButton = styled.button`
@@ -61,10 +73,53 @@ const LogoutButton = styled.button`
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+&:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+`;
+
+const Menu = styled.ul`
+  display: flex;
+  list-style: none;
+  text-align: center;
+  align-items: center;
+
+  @media (max-width: 970px) {
+    flex-direction: column;
+    display: ${props => (props.open ? 'flex' : 'none')};
+  }
+`;
+
+const Hamburger = styled.div`
+  display: none;
+
+  @media (max-width: 970px) {
+    display: block;
+    font-size: 3rem;
+  }
+`;
+
+const HorisontalLine = styled.hr`
+  display: none;
+  @media (max-width: 970px) {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+    background-color: black;
+    height: 3px;
+    border: none;
+    filter: blur(1px);
+    filter: opacity(40%);
+  }
 `;
 
 const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -75,16 +130,11 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
   };
 
   return (
+    <>
     <Nav>
       <Logo to="/">Notes.com</Logo>
-      <ul
-        style={{
-          display: "flex",
-          listStyle: "none",
-          textAlign: "center",
-          alignItems: "center",
-        }}
-      >
+      <Hamburger onClick={() => setOpen(!open)}>☰</Hamburger>
+      <Menu open={open}>     
         {loggedInUser.roles.includes("admin") && (
           <StyledLi>
             <StyledNavLink to="/adminPage">AdminPage</StyledNavLink>
@@ -104,8 +154,10 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
             Logout
           </LogoutButton>
         </StyledLi>
-      </ul>
+        </Menu>
     </Nav>
+    <HorisontalLine></HorisontalLine>
+    </>
   );
 };
 
