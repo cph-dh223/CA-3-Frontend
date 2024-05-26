@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { readAllNotes } from '../services/noteService';
+import { readAllNotes, updateNote } from '../services/noteService';
 
 const PageContainer = styled.div`
   display: flex;
@@ -28,15 +28,16 @@ const NoteDiv = styled.div`
 `;
 
 const EditButton = styled.button`
-  align-self: flex-end;
-  color: #060606;
+  align-self: flex-start;
+  background-color: ${({ index }) => (index % 2 === 0 ? 'blue' : 'green')};
+  color: white;
 `;
 
 const NoteWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid #000000;
-  width: calc(25% - 10px);
+  width: ${({ edit }) => (edit ? '100%' : 'calc(25% - 10px)')};
   box-sizing: border-box;
   min-height: 200px;
   padding: 10px;
@@ -44,43 +45,51 @@ const NoteWrapper = styled.div`
   background-color: ${() => '#' + Math.floor(Math.random()*16777215).toString(16)};
 `;
 
-const Note = ({note}) => {
+const Note = ({ note }) => {
   const [edit, setEdit] = useState(false);
+  const [content, setContent] = useState(note.content);
+
+  const handleBlur = async () => {
+    await updateNote(note.id, content);
+    setEdit(false);
+  };
+
+  const handleChange = (event) => {
+    setContent(event.target.value);
+  };
 
   return (
-    <NoteWrapper >
-      <EditButton  onClick={() => setEdit(!edit)}>
+    <NoteWrapper edit={edit}>
+      <EditButton onClick={() => setEdit(!edit)}>
         {edit ? 'Stop Editing' : 'Edit Note'}
       </EditButton>
-      <NoteDiv  contentEditable={edit}>{note}</NoteDiv>
+      {edit ? (
+        <textarea onBlur={handleBlur} onChange={handleChange} value={content} />
+      ) : (
+        <NoteDiv>{content}</NoteDiv>
+      )}
     </NoteWrapper>
   );
 };
 
-
 function MyNotes() {
-
-
   const [notes, setNotes] = useState([]);
 
-  const fetchAllNotes = async ()=>{
-    const allNotes = await readAllNotes();
-    console.log(allNotes);
-      setNotes(allNotes);
-  }
-
   useEffect(() => {
-      fetchAllNotes();
-    
+    const fetchNotes = async () => {
+      const fetchedNotes = await readAllNotes();
+      setNotes(fetchedNotes);
+    };
+
+    fetchNotes();
   }, []);
 
   return (
     <PageContainer>
       <Header>My Notes</Header>
       <NoteContainer>
-
-        {notes.map((note) => (
-          <Note key={note.id} note={note.content} />
+        {notes.map((note, index) => (
+          <Note key={index} note={note} index={index} />
         ))}
       </NoteContainer>
     </PageContainer>
