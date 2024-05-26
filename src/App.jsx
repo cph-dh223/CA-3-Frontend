@@ -69,13 +69,14 @@ function App() {
             <Route path="/adminPage" element={<UserOverview />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/myNotes" element={<MyNotes />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/addNote" element={<AddNote />} />
+            
             <Route />
 
             <Route path="*" element={<PageNotFound />} />
           </Route>
-
           <Route path="/about" element={<About />} />
-
           <Route path="/addNote" element={<AddNote />} />
         </Route>
       </Routes>

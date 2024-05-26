@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
@@ -11,6 +12,8 @@ const StyledButton = styled.button`
   margin: 20px;
   cursor: pointer;
 `;
+
+
 
 const CenteredDiv = styled.div`
   display: flex;
@@ -35,16 +38,18 @@ const StyledImage = styled.img`
 `;
 
 function Notes() {
+
+  const navigate = useNavigate();
   return (
     <>
     <CenteredDiv>
       <h1 style={{fontFamily:"raleway", fontSize: 80, letterSpacing: "20px", fontWeight:300}}>Organize Everyday</h1>
       <StyledImage/>
       <ButtonContainer>
-        <StyledButton>
+        <StyledButton onClick={()=>(navigate("/myNotes"))}>
           My Notes
         </StyledButton>
-        <StyledButton>
+        <StyledButton onClick={()=>(navigate("/addNote"))}>
           Add Notes
         </StyledButton>
       </ButtonContainer>
