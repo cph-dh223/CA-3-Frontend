@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../services/apiFacade";
 
-export default function CreateUser({setUserJustCreated}) {
+export default function CreateUser({ setUserJustCreated }) {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -30,9 +30,9 @@ export default function CreateUser({setUserJustCreated}) {
       setError("Password and Confirm Password do not match");
       return;
     }
-    console.log({email: email, password: password});
+    console.log({ email: email, password: password });
 
-    const userDetailsEntered = {email: email, password: password};
+    const userDetailsEntered = { email: email, password: password };
 
     try {
       const result = await createUser(userDetailsEntered);
@@ -46,11 +46,14 @@ export default function CreateUser({setUserJustCreated}) {
     } catch (error) {
       console.error("Error in handleCreateUser:", error);
     }
-
   };
 
   return (
-    <StyledLoginForm>
+    <StyledLoginMainDiv>
+      <StyledBackToLoginButton onClick={()=> (navigate("/login"))}>
+        Go back to login
+      </StyledBackToLoginButton>
+
       <StyledForm onSubmit={handleSubmit}>
         <StyledLabel>
           Email:
@@ -85,16 +88,22 @@ export default function CreateUser({setUserJustCreated}) {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <StyledButton type="submit">Create User</StyledButton>
       </StyledForm>
-    </StyledLoginForm>
+    </StyledLoginMainDiv>
   );
 }
 
-const StyledLoginForm = styled.div`
+const StyledLoginMainDiv = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
   width: 200vb;
+`;
+const StyledBackToLoginButton = styled.button`
+  margin-bottom: 2vw;
+  background-color: black;
+  color: white;
 `;
 
 const StyledForm = styled.form`
