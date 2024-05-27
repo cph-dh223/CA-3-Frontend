@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import {
   readAllNotes,
@@ -10,6 +9,7 @@ import {
 } from "../services/noteService";
 import { useNavigate } from 'react-router-dom';
 import { StyledBackButton } from '../styles/GlobalStyles';
+import { getUserEmails } from '../services/userServise';
 
 
 const PageContainer = styled.div`
@@ -106,21 +106,78 @@ const GoButton = styled.button`
 `
 
 
-const Note = ({ note, title, category }) => {
+const Note = ({ note,  }) => {
 
   const [edit, setEdit] = useState(false);
+  const [collaboratorToAdd, setCollaboratorToAdd] = useState('');
+
+  const onEdit = () => {
+    if (edit) {
+      setEdit(false)
+      updateNote(note)
+    } else {
+      // begin edit
+      setEdit(true)
+    }
+
+  }
+
+  const handleChange = (e) => {
+    setCollaboratorToAdd(e.target.value)
+  }
+
+  const addColaboratroSubmit = async (e) => {
+    e.preventDefault()
+    const userEmails = await getUserEmails()
+    const newColaborator = userEmails.find(ue => ue.email === collaboratorToAdd)
+    console.log(newColaborator);
+    if(newColaborator){
+      note.colaborators = [...note.colaborators, newColaborator.email]
+      setCollaboratorToAdd('')
+    } else {
+      // TODO unhappy path 
+    }
+  }
 
   return (
+
     <StyledMainNoteDiv>
       <StyledTitleDiv>
-        {title} - Category: {category}
+        {note.title} - Category: {note.category}
       </StyledTitleDiv>
-      <NoteWrapper>
-        <EditButton onClick={() => setEdit(!edit)}>
-          {edit ? "Stop Editing" : "Edit Note"}
-        </EditButton>
-        <NoteDiv contentEditable={edit}>{note}</NoteDiv>
-      </NoteWrapper>
+      <NoteWrapper >
+      <EditButton onClick={onEdit}>
+        {edit ? 'Stop Editing' : 'Edit Note'}
+      </EditButton>
+      <h2>{note.title}</h2>
+      <hr />
+      {
+        !edit ?
+
+          <>
+            {note.colaborators.map((c) => (
+              <>
+                <a key={c}>{c}</a>
+              </>
+            ))}
+          </>
+
+          :
+          <>
+            <form onSubmit={addColaboratroSubmit}>
+              <input
+                type='text'
+                onChange={handleChange}
+              />
+              <button type='submit'>add colaborator</button>
+            </form>
+          </>
+      }
+
+
+      <hr />
+      <NoteDiv contentEditable={edit}>{note.content}</NoteDiv>
+    </NoteWrapper>
     </StyledMainNoteDiv>
   );
 };
@@ -174,9 +231,9 @@ function MyNotes() {
   return (
     <PageContainer>
 
-     <StyledBackButton onClick={()=>(navigate("/notes"))}>
-      Go back
-    </StyledBackButton>
+      <StyledBackButton onClick={() => (navigate("/notes"))}>
+        Go back
+      </StyledBackButton>
       <Header>My Notes</Header>
 
       <DivForSearchBarAndSortButtons>
@@ -202,12 +259,7 @@ function MyNotes() {
 
       <NoteContainer>
         {notes.map((note) => (
-          <Note
-            key={note.id}
-            note={note.content}
-            title={note.title}
-            category={note.category}
-          />
+          <Note key={note.id} note={note} />
         ))}
       </NoteContainer>
     </PageContainer>

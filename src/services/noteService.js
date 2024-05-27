@@ -10,9 +10,7 @@ const createNote = async (note) => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body: {
-                ...note
-            }
+            body: JSON.stringify(note),
         });
 
         return await result.json();
@@ -27,18 +25,18 @@ const readAllNotes = async () => {
         const token = localStorage.getItem("token")
 
 
-        if (token){
-        const result = await fetch(`${BASE_URL}/notes/`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-        });
+        if (token) {
+            const result = await fetch(`${BASE_URL}/notes/`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            });
 
-        const theResult = await result.json();
-        
-        return theResult;
-    }
+            const theResult = await result.json();
+
+            return theResult;
+        }
 
     } catch (e) {
         console.log(e);
@@ -68,13 +66,13 @@ const updateNote = async (note) => {
         const token = localStorage.getItem("token")
 
         const result = await fetch(`${BASE_URL}/user/note/update/${note.id}`, {
+            method: 'PUT',
             headers: {
+
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-            body:{
-                ...note
-            }
+            body: JSON.stringify(note),
         });
         return await result.json();
 
@@ -102,8 +100,8 @@ const deleteNote = async (note) => {
 }
 
 const searchByTitle = async (seachString) => {
-  try {
-    const token = localStorage.getItem("token");
+    try {
+        const token = localStorage.getItem("token");
 
         const result = await fetch(`${BASE_URL}/notes/search/${seachString}`, {
             headers: {
@@ -120,11 +118,11 @@ const searchByTitle = async (seachString) => {
 };
 
 const sortByCategory = () => {
-  return sortByFetch("category");
+    return sortByFetch("category");
 };
 
 const sortByTitle = () => {
-  return sortByFetch("title");
+    return sortByFetch("title");
 };
 
 const sortByDate = () => {
@@ -135,15 +133,15 @@ const sortByDate = () => {
 
 const sortByFetch = async (endURL) => {
 
-  try {
-    const token = localStorage.getItem("token");
+    try {
+        const token = localStorage.getItem("token");
 
-    const result = await fetch(`${BASE_URL}/notes/sort/${endURL}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+        const result = await fetch(`${BASE_URL}/user/notes/sort/${endURL}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
         return await result.json();
     } catch (e) {
@@ -151,4 +149,4 @@ const sortByFetch = async (endURL) => {
     }
 }
 
-export { searchByTitle, sortByCategory, sortByTitle, sortByDate, createNote, readNote, updateNote, deleteNote, readAllNotes};
+export { searchByTitle, sortByCategory, sortByTitle, sortByDate, createNote, readNote, updateNote, deleteNote, readAllNotes };
