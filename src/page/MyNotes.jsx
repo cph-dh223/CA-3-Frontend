@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
@@ -8,43 +7,51 @@ import {
   sortByDate,
   sortByTitle,
 } from "../services/noteService";
-import { useNavigate } from 'react-router-dom';
-import { StyledBackButton } from '../styles/GlobalStyles';
-
+import { useNavigate } from "react-router-dom";
+import { StyledBackButton } from "../styles/GlobalStyles";
+import noteBackgroundImage from "/src/img/notepad.jpg";
 
 const PageContainer = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 20px;
+  padding: 20px; */
 `;
 
+
+
 const Header = styled.h1`
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 `;
 
 const NoteContainer = styled.div`
-  display: flex;
+  /* display: flex;
   flex-wrap: wrap;
   gap: 8px;
   justify-content: space-between;
-  width: 100%;
+  width: 100%; */
+  background-image: url(${noteBackgroundImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  height: 600px;
 `;
 
 const NoteDiv = styled.div`
-  border: solid red;
-  flex-grow: 1;
+  /* border: solid red;
+  flex-grow: 1; */
 `;
 
 const EditButton = styled.button`
-  align-self: flex-end;
-  color: #060606;
+  /* align-self: flex-end;
+  color: #060606; */
 `;
 
 const NoteWrapper = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   border: 1px solid #000000;
   box-sizing: border-box;
@@ -53,22 +60,21 @@ const NoteWrapper = styled.div`
   padding: 10px;
   overflow: auto;
   background-color: ${() =>
-    "#" + Math.floor(Math.random() * 16777215).toString(16)};
+    "#" + Math.floor(Math.random() * 16777215).toString(16)}; */
 `;
 
-
 const StyledMainNoteDiv = styled.div`
-  border: solid black;
+  /* border: solid black;
   border-width: thick;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 300px;
-  width: calc(25% - 10px);
+  width: calc(25% - 10px); */
 `;
 
 const StyledTitleDiv = styled.div`
-  border: solid purple;
+  /* border: solid purple; */
 `;
 
 const DivForSearchBarAndSortButtons = styled.div`
@@ -100,14 +106,9 @@ const SortByHeadline = styled.div`
   flex: 0.5;
 `;
 
-const GoButton = styled.button`
-
-
-`
-
+const GoButton = styled.button``;
 
 const Note = ({ note, title, category }) => {
-
   const [edit, setEdit] = useState(false);
 
   return (
@@ -126,7 +127,6 @@ const Note = ({ note, title, category }) => {
 };
 
 function MyNotes() {
-
   const navigate = useNavigate();
 
   const [notes, setNotes] = useState([]);
@@ -136,12 +136,10 @@ function MyNotes() {
     setQuery(e.target.value);
   };
 
-
   const search = async () => {
     const allNotesFromSearch = await searchByTitle(query);
     setNotes(allNotesFromSearch);
-
-  }
+  };
 
   const sortNotesByCategory = async () => {
     const allNotesSorted = await sortByCategory();
@@ -173,10 +171,9 @@ function MyNotes() {
 
   return (
     <PageContainer>
-
-     <StyledBackButton onClick={()=>(navigate("/notes"))}>
-      Go back
-    </StyledBackButton>
+      <StyledBackButton onClick={() => navigate("/notes")}>
+        Go back
+      </StyledBackButton>
       <Header>My Notes</Header>
 
       <DivForSearchBarAndSortButtons>
@@ -199,19 +196,29 @@ function MyNotes() {
           <SortButton onClick={sortNotesByDate}>Date</SortButton>
         </FrameDiv>
       </DivForSearchBarAndSortButtons>
-
-      <NoteContainer>
+      <MyNotesBody>
         {notes.map((note) => (
-          <Note
-            key={note.id}
-            note={note.content}
-            title={note.title}
-            category={note.category}
-          />
+          <NoteContainer>
+            <Note
+              key={note.id}
+              note={note.content}
+              title={note.title}
+              category={note.category}
+            />
+          </NoteContainer>
         ))}
-      </NoteContainer>
+      </MyNotesBody>
     </PageContainer>
   );
 }
 
 export default MyNotes;
+
+const MyNotesBody = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+  justify-content: center;
+  width: 90%;
+  margin: 0 auto;
+`;
