@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
-
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -16,9 +15,18 @@ const Nav = styled.nav`
   }
 `;
 
+const MenuContainer = styled.div`
+  @media (max-width: 970px) {
+  max-height: ${(props) => (props.open ? "450px" : "0px")};
+  transition: max-height 0.5s ease-in-out;
+  overflow: hidden;
+}
+`;
+
 const StyledLi = styled.li`
   display: flex;
   padding-right: 30px;
+  transition: all 0.5s ease;
 
   @media (max-width: 970px) {
     padding: 10px 0;
@@ -31,12 +39,12 @@ const StyledNavLink = styled(NavLink)`
   padding: 10px;
   text-decoration: none;
   color: black;
-  transition: background-color 0.2s ease, color 0.2s ease;
-
+  transition: all 0.1s ease;
   &:hover {
-    color: white;
+    color: #e99139;
   }
 `;
+
 
 const Logo = styled(NavLink)`
   color: black;
@@ -73,7 +81,6 @@ const LogoutButton = styled.button`
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-
   transition: background-color 0.2s ease, color 0.2s ease;
 
 &:hover {
@@ -89,8 +96,10 @@ const Menu = styled.ul`
   align-items: center;
 
   @media (max-width: 970px) {
+    opacity: ${(props) => (props.open ? '1' : '0')};
+  visibility: ${(props) => (props.open ? 'visible' : 'hidden')};
+  transition: opacity 0.5s ease, visibility 0.5s ease;
     flex-direction: column;
-    display: ${props => (props.open ? 'flex' : 'none')};
   }
 `;
 
@@ -134,6 +143,7 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
     <Nav>
       <Logo to="/">Notes.com</Logo>
       <Hamburger onClick={() => setOpen(!open)}>☰</Hamburger>
+      <MenuContainer open={open}>
       <Menu open={open}>     
         {loggedInUser.roles.includes("admin") && (
           <StyledLi>
@@ -155,6 +165,7 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
           </LogoutButton>
         </StyledLi>
         </Menu>
+        </MenuContainer>
     </Nav>
     <HorisontalLine></HorisontalLine>
     </>

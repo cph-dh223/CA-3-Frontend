@@ -58,18 +58,18 @@ export default function CreateUser({ setUserJustCreated }) {
           <h1>Sign Up</h1>
             <form onSubmit={handleSubmit}>
               <StyledInputBox>
-                Email:
                 <input
                   type="email"
                   value={email}
+                  placeholder="Email"
                   onChange={handleEmailChange}
                   required
                 />
               </StyledInputBox>
 
               <StyledInputBox>
-                Password:
                 <input
+                  placeholder="Password"
                   type="password"
                   value={password}
                   onChange={handlePasswordChange}
@@ -78,8 +78,8 @@ export default function CreateUser({ setUserJustCreated }) {
               </StyledInputBox>
 
               <StyledInputBox>
-                Confirm password:
                 <input
+                  placeholder="Confirm Password"
                   type="password"
                   value={confirmPassword}
                   onChange={handleConfirmPasswordChange}
