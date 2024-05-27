@@ -110,8 +110,6 @@ const Note = ({ note }) => {
             </form>
           </>
       }
-
-
       <hr />
       <NoteDiv contentEditable={edit}>{note.content}</NoteDiv>
     </NoteWrapper>
