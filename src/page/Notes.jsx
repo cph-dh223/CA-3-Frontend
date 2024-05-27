@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
@@ -8,6 +9,8 @@ const StyledButton = styled.button`
   margin: 20px;
   cursor: pointer;
 `;
+
+
 
 const CenteredDiv = styled.div`
   display: flex;
@@ -31,15 +34,18 @@ const StyledImage = styled.img`
 `;
 
 function Notes() {
+
+  const navigate = useNavigate();
   return (
     <>
     <CenteredDiv>
+
       <StyledImage src="https://us.123rf.com/450wm/tartila/tartila1901/tartila190100004/126480881-note-di-carta-adesivo-per-appunti-vista-dall-alto-o-carta-adesiva-per-appunti-carta-da-lettere.jpg?ver=6" alt="Note" />
       <ButtonContainer>
-        <StyledButton>
+        <StyledButton onClick={()=>(navigate("/myNotes"))}>
           My Notes
         </StyledButton>
-        <StyledButton>
+        <StyledButton onClick={()=>(navigate("/addNote"))}>
           Add Notes
         </StyledButton>
       </ButtonContainer>
