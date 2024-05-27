@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { readAllNotes } from '../services/noteService';
-import { useNavigate } from 'react-router-dom';
+import { readAllNotes, updateNote } from '../services/noteService';
+import { Form, useNavigate } from 'react-router-dom';
 import { StyledBackButton } from '../styles/GlobalStyles';
+import { getUserEmails } from '../services/userServise';
 
 
 const PageContainer = styled.div`
@@ -44,19 +45,75 @@ const NoteWrapper = styled.div`
   min-height: 200px;
   padding: 10px;
   overflow: auto;
-  background-color: ${() => '#' + Math.floor(Math.random()*16777215).toString(16)};
+  background-color: ${() => '#' + Math.floor(Math.random() * 16777215).toString(16)};
 `;
 
 
-const Note = ({note}) => {
+const Note = ({ note }) => {
   const [edit, setEdit] = useState(false);
+  const [collaboratorToAdd, setCollaboratorToAdd] = useState('');
+
+  const onEdit = () => {
+    if (edit) {
+      setEdit(false)
+      updateNote(note)
+    } else {
+      // begin edit
+      setEdit(true)
+    }
+
+  }
+
+  const handleChange = (e) => {
+    setCollaboratorToAdd(e.target.value)
+  }
+
+  const addColaboratroSubmit = async (e) => {
+    e.preventDefault()
+    const userEmails = await getUserEmails()
+    const newColaborator = userEmails.find(ue => ue.email === collaboratorToAdd)
+    console.log(newColaborator);
+    if(newColaborator){
+      note.colaborators = [...note.colaborators, newColaborator.email]
+      setCollaboratorToAdd('')
+    } else {
+      // TODO unhappy path 
+    }
+  }
 
   return (
     <NoteWrapper >
-      <EditButton  onClick={() => setEdit(!edit)}>
+      <EditButton onClick={onEdit}>
         {edit ? 'Stop Editing' : 'Edit Note'}
       </EditButton>
-      <NoteDiv  contentEditable={edit}>{note}</NoteDiv>
+      <h2>{note.title}</h2>
+      <hr />
+      {
+        !edit ?
+
+          <>
+            {note.colaborators.map((c) => (
+              <>
+                <a key={c}>{c}</a>
+              </>
+            ))}
+          </>
+
+          :
+          <>
+            <form onSubmit={addColaboratroSubmit}>
+              <input
+                type='text'
+                onChange={handleChange}
+              />
+              <button type='submit'>add colaborator</button>
+            </form>
+          </>
+      }
+
+
+      <hr />
+      <NoteDiv contentEditable={edit}>{note.content}</NoteDiv>
     </NoteWrapper>
   );
 };
@@ -67,28 +124,28 @@ function MyNotes() {
   const navigate = useNavigate();
   const [notes, setNotes] = useState([]);
 
-  const fetchAllNotes = async ()=>{
+  const fetchAllNotes = async () => {
     const allNotes = await readAllNotes();
     console.log(allNotes);
-      setNotes(allNotes);
+    setNotes(allNotes);
   }
 
   useEffect(() => {
-      fetchAllNotes();
-    
+    fetchAllNotes();
+
   }, []);
 
   return (
     <PageContainer>
 
-     <StyledBackButton onClick={()=>(navigate("/notes"))}>
-      Go back
-    </StyledBackButton>
+      <StyledBackButton onClick={() => (navigate("/notes"))}>
+        Go back
+      </StyledBackButton>
       <Header>My Notes</Header>
       <NoteContainer>
 
         {notes.map((note) => (
-          <Note key={note.id} note={note.content} />
+          <Note key={note.id} note={note} />
         ))}
       </NoteContainer>
     </PageContainer>
