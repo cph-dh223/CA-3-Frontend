@@ -5,7 +5,7 @@ const createNote = async (note) => {
     try {
         const token = localStorage.getItem("token")
 
-        const result = await fetch(`${BASE_URL_DEV}/user/note/create`, {
+        const result = await fetch(`${BASE_URL}/user/note/create`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -47,7 +47,7 @@ const readNote = async () => {
     try {
         const token = localStorage.getItem("token")
 
-        const result = await fetch(`${BASE_URL_DEV}/user/note`, {
+        const result = await fetch(`${BASE_URL}/user/note`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -103,7 +103,7 @@ const searchByTitle = async (seachString) => {
     try {
         const token = localStorage.getItem("token");
 
-        const result = await fetch(`${BASE_URL_DEV}/user/notes/search/${seachString}`, {
+        const result = await fetch(`${BASE_URL}/notes/search/${seachString}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
