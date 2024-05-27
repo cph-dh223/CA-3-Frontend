@@ -12,15 +12,11 @@ import { StyledBackButton } from "../styles/GlobalStyles";
 import noteBackgroundImage from "/src/img/notepad.jpg";
 
 const PageContainer = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 20px; */
+  * {
+    margin: 0;
+    box-sizing: border-box;
+  }
 `;
-
-
 
 const Header = styled.h1`
   /* margin-bottom: 20px; */
@@ -32,45 +28,28 @@ const NoteContainer = styled.div`
   gap: 8px;
   justify-content: space-between;
   width: 100%; */
-  background-image: url(${noteBackgroundImage});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0.2);
+
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
   border-radius: 10px;
-  height: 600px;
+  height: 500px;
+  transition: ease-in-out .1s;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
 `;
 
 const NoteDiv = styled.div`
-  /* border: solid red;
-  flex-grow: 1; */
+width: 100%;
+height: 90%;
+ border: solid red;
+
 `;
 
 const EditButton = styled.button`
   /* align-self: flex-end;
   color: #060606; */
-`;
-
-const NoteWrapper = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  overflow: auto;
-  background-color: ${() =>
-    "#" + Math.floor(Math.random() * 16777215).toString(16)}; */
-`;
-
-const StyledMainNoteDiv = styled.div`
-  /* border: solid black;
-  border-width: thick;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 300px;
-  width: calc(25% - 10px); */
 `;
 
 const StyledTitleDiv = styled.div`
@@ -106,23 +85,34 @@ const SortByHeadline = styled.div`
   flex: 0.5;
 `;
 
-const GoButton = styled.button``;
+const GoButton = styled.button`
+  width: 100%;
+  height: 45px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+`;
 
 const Note = ({ note, title, category }) => {
   const [edit, setEdit] = useState(false);
 
   return (
-    <StyledMainNoteDiv>
+    <>
       <StyledTitleDiv>
         {title} - Category: {category}
       </StyledTitleDiv>
-      <NoteWrapper>
         <EditButton onClick={() => setEdit(!edit)}>
           {edit ? "Stop Editing" : "Edit Note"}
         </EditButton>
         <NoteDiv contentEditable={edit}>{note}</NoteDiv>
-      </NoteWrapper>
-    </StyledMainNoteDiv>
+      
+    </>
   );
 };
 
@@ -217,7 +207,7 @@ export default MyNotes;
 const MyNotesBody = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 20px;
+  grid-gap: 50px;
   justify-content: center;
   width: 90%;
   margin: 0 auto;
