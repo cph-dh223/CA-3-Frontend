@@ -87,7 +87,6 @@ export default function CreateUser({ setUserJustCreated }) {
                 />
               </StyledInputBox>
               <br></br>
-              {error && <ErrorMessage>{error}</ErrorMessage>}
               <StyledButtonWrapper>
                 <StyledButtonSubmit type="submit">
                   Create User
@@ -96,6 +95,7 @@ export default function CreateUser({ setUserJustCreated }) {
                 {/* <StyledButtonLogin type="submit">Login</StyledButtonLogin> */}
               </StyledButtonWrapper>
             </form>
+            {error && <p>{error}</p>}
             <StyledRegisterLink>
               <p>
                 Already have an account?
