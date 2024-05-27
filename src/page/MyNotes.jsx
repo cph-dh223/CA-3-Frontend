@@ -106,14 +106,14 @@ const GoButton = styled.button`
 `
 
 
-const Note = ({ note, title, category }) => {
+const Note = ({ note, title, category, date }) => {
 
   const [edit, setEdit] = useState(false);
 
   return (
     <StyledMainNoteDiv>
       <StyledTitleDiv>
-        {title} - Category: {category}
+        Title: {title} - Category: {category} - Date: {date}
       </StyledTitleDiv>
       <NoteWrapper>
         <EditButton onClick={() => setEdit(!edit)}>
@@ -207,6 +207,7 @@ function MyNotes() {
             note={note.content}
             title={note.title}
             category={note.category}
+            date ={note.date}
           />
         ))}
       </NoteContainer>
