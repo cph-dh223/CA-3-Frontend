@@ -62,10 +62,10 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    navigate("/login");
-    localStorage.removeItem("token");
-
+    localStorage.clear();
     setLoggedInUser({ email: "", name: "", roles: ["user"] });
+    navigate("/login");
+    console.log("Logged out" )
   };
 
   return (
@@ -81,7 +81,7 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
             <></>
           )}
           <MenuItem>
-            <StyledNavLink to="/notes">Notes</StyledNavLink>
+            <StyledNavLink to="/">Notes</StyledNavLink>
           </MenuItem>
           <MenuItem>
             <StyledNavLink to="/about">About</StyledNavLink>

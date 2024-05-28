@@ -91,7 +91,7 @@ function AddNote() {
 
   return (
     <Container>
-    <StyledBackButton onClick={()=>(navigate("/notes"))}>
+    <StyledBackButton onClick={()=>(navigate("/"))}>
       Go back
     </StyledBackButton>
       <form onSubmit={handleSubmit}>
