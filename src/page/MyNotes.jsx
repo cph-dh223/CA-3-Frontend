@@ -108,24 +108,22 @@ const SortByHeadline = styled.div`
 
 const GoButton = styled.button`
 
-
 `
 
-
+const NoteTextarea = styled.textarea`
+  flex-grow: 1;
+`
 const Note = ({ note }) => {
-
   
   const [edit, setEdit] = useState(false);
   const [content, setContent] = useState(note.content);
   const [collaboratorToAdd, setCollaboratorToAdd] = useState('');
 
-  const handleBlur = async () => {
-    await updateNote(note);
-    setEdit(false);
-  };
+
 
   const handleNoteChange = (event) => {
     setContent(event.target.value);
+    note.content = content;
   };
 
   
@@ -139,6 +137,7 @@ const Note = ({ note }) => {
     }
 
   }
+      
 
   const handleChange = (e) => {
     setCollaboratorToAdd(e.target.value)
@@ -195,9 +194,9 @@ const Note = ({ note }) => {
 
       <hr />
       {edit ? (
-        <textarea onBlur={handleBlur} onChange={handleNoteChange} value={content} />
+        <NoteTextarea  onChange={handleNoteChange} value={content} />
       ) : (
-        <NoteDiv contentEditable={edit}>{note.content}</NoteDiv>
+        <NoteDiv contentEditable={edit} >{note.content}</NoteDiv>
       )}
     </NoteWrapper>
 
