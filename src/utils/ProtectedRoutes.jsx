@@ -1,24 +1,25 @@
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-function ProtectedRoutes({isLoggedIn}) {
-    const navigate = useNavigate();
+export function ProtectedRoutes({ children, isLoggedIn }) {
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            navigate('/login')
-        }
-    }, [isLoggedIn, navigate])
-    if (isLoggedIn) return (<Outlet/>);
-    else{
-        return null;
+  useEffect(() => {
+    if(!isLoggedIn) {
+      return navigate("/login" );
     }
+    else {
+      console.log("navigate to /")
+      return navigate("/");
+    }
+  }, [isLoggedIn]);
+
+  return children;
 }
 
 export default ProtectedRoutes;
 
 ProtectedRoutes.propTypes = {
-
-    isLoggedIn: PropTypes.bool
-}
+  isLoggedIn: PropTypes.bool,
+};

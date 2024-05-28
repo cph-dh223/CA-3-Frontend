@@ -233,7 +233,7 @@ function MyNotes() {
   return (
     <PageContainer>
 
-      <StyledBackButton onClick={() => (navigate("/notes"))}>
+      <StyledBackButton onClick={() => (navigate("/"))}>
         Go back
       </StyledBackButton>
       <Header>My Notes</Header>

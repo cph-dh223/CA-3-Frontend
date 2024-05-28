@@ -7,18 +7,14 @@ import { BASE_URL } from "../utils/globalVariables.js";
 import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
 import { login } from "../services/apiFacade.js";
 
-function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCreated}) {
+function Login({ setErrorMessage, errorMessage, setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCreated}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    
-
     try {
       const data = await login(username, password);
 
@@ -31,7 +27,7 @@ function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCre
         setUserJustCreated(false);
 
         //console.log('Login successful:', userDetails);
-        navigate("/notes");
+        navigate("/");
       } else {
         //console.log("Login failed." + data.Message);
         //setErrorMessage(data.Message)
