@@ -42,7 +42,7 @@ function Login({ setErrorMessage, errorMessage, setIsLoggedIn, setLoggedInUser, 
             <form onSubmit={handleLogin}>
               <StyledInputBox>
                 <input
-                  type="text"
+                  type="text" 
                   placeholder="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
