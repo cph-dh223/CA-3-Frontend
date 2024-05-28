@@ -6,6 +6,7 @@ import {
   sortByCategory,
   sortByDate,
   sortByTitle,
+  updateNote
 } from "../services/noteService";
 import { useNavigate } from 'react-router-dom';
 import { StyledBackButton } from '../styles/GlobalStyles';
@@ -106,8 +107,9 @@ const GoButton = styled.button`
 `
 
 
-const Note = ({ note,  }) => {
+const Note = ({ note }) => {
 
+  
   const [edit, setEdit] = useState(false);
   const [collaboratorToAdd, setCollaboratorToAdd] = useState('');
 
@@ -143,7 +145,8 @@ const Note = ({ note,  }) => {
 
     <StyledMainNoteDiv>
       <StyledTitleDiv>
-        {note.title} - Category: {note.category}
+        Title: {note.title} - Category: {note.category} - Date: {note.date}
+
       </StyledTitleDiv>
       <NoteWrapper >
       <EditButton onClick={onEdit}>
@@ -156,9 +159,8 @@ const Note = ({ note,  }) => {
 
           <>
             {note.colaborators.map((c) => (
-              <>
+              
                 <a key={c}>{c}</a>
-              </>
             ))}
           </>
 
@@ -259,7 +261,13 @@ function MyNotes() {
 
       <NoteContainer>
         {notes.map((note) => (
-          <Note key={note.id} note={note} />
+
+          <Note
+            key={note.id}
+            note={note}
+            
+          />
+
         ))}
       </NoteContainer>
     </PageContainer>
