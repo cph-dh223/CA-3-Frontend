@@ -133,7 +133,10 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.clear();
+    localStorage.clear();
     setLoggedInUser({ email: "", name: "", roles: ["user"] });
+    navigate("/login");
+    console.log("Logged out" )
     navigate("/login");
     console.log("Logged out" )
   };

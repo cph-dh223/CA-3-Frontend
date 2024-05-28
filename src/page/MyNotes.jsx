@@ -6,6 +6,7 @@ import {
   sortByCategory,
   sortByDate,
   sortByTitle,
+  updateNote
 } from "../services/noteService";
 import { useNavigate } from "react-router-dom";
 import { StyledBackButton } from "../styles/GlobalStyles";

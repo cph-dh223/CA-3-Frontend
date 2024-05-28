@@ -27,13 +27,13 @@ const readAllNotes = async () => {
         const token = localStorage.getItem("token")
 
 
-        if (token){
-        const result = await fetch(`${BASE_URL}/notes/`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-        });
+        if (token) {
+            const result = await fetch(`${BASE_URL}/user/notes/`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            });
 
         const theResult = await result.json();
         
@@ -105,7 +105,7 @@ const searchByTitle = async (seachString) => {
   try {
     const token = localStorage.getItem("token");
 
-        const result = await fetch(`${BASE_URL}/notes/search/${seachString}`, {
+        const result = await fetch(`${BASE_URL}/user/notes/search/${seachString}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
