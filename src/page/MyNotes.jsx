@@ -8,26 +8,40 @@ import {
   sortByTitle,
 } from "../services/noteService";
 import { useNavigate } from "react-router-dom";
-import { StyledBackButton } from "../styles/GlobalStyles";
-import noteBackgroundImage from "/src/img/notepad.jpg";
 
-const Note = ({ note, title, category }) => {
-  const [edit, setEdit] = useState(false);
+const Note = ({ note }) => {
+  const [noteContent, setNoteContent] = useState(note.content);
+  const [noteTitle, setNoteTitle] = useState(note.title);
+  const [category, setCategory] = useState(note.category);
+  const [edit , setEdit] = useState(false);
+
+  const handleCategoryChange = () => {
+    setCategory((prevCategory) =>
+      prevCategory === "NOTE" ? "REMINDER" : "NOTE"
+    );
+  };
+
+  const handleInputChange = (event) => {
+    setEdit(true);
+    if (event.target.id === "title") {
+      setNoteTitle(event.target.value);
+    } else {
+      setNoteContent(event.target.value);
+    }
+  };
 
   return (
     <>
-      <CategoryDiv>
-        <p>{category}</p>
-      </CategoryDiv>
-      <NoteWrapper>
-        <TitleDiv>
-          {title} - Category: {category}
-        </TitleDiv>
-        <button onClick={() => setEdit(!edit)}>
-          {edit ? "Stop Editing" : "Edit Note"}
-        </button>
-        <NoteContent contentEditable={edit}>{note}</NoteContent>
-      </NoteWrapper>
+      <div>
+        <CategoryDiv $category={category} onClick={handleCategoryChange}>
+          <p>{category}</p>
+        </CategoryDiv>
+        <NoteWrapper>
+          <StyledTitle id="title" value={noteTitle} onChange={handleInputChange} />
+          <hr></hr>
+          <StyledTextArea id="content" value={noteContent} onChange={handleInputChange} />
+        </NoteWrapper>
+      </div>
     </>
   );
 };
@@ -73,7 +87,6 @@ function MyNotes() {
 
   return (
     <PageContainer>
-      <StyledBackButton onClick={() => navigate("/")}>Go back</StyledBackButton>
       <h1>My Notes</h1>
 
       <DivForSearchBarAndSortButtons>
@@ -99,11 +112,7 @@ function MyNotes() {
       <MyNotesBody>
         {notes.map((note) => (
           <NoteContainer key={note.id}>
-            <Note
-              note={note.content}
-              title={note.title}
-              category={note.category}
-            />
+            <Note note={note} />
           </NoteContainer>
         ))}
       </MyNotesBody>
@@ -193,7 +202,10 @@ const NoteContainer = styled.div`
 //category
 const CategoryDiv = styled.div`
   border: none;
-  background-color: rgba(255, 217, 0, 0.5);
+  background-color: ${(props) =>
+    props.$category === "REMINDER"
+      ? "rgba(193, 21, 21, 0.5)"
+      : "rgba(255, 217, 0, 0.5)"};
   color: black;
   text-align: center;
   font-size: 1em;
@@ -201,33 +213,48 @@ const CategoryDiv = styled.div`
   padding: 5px 10px 5px 10px;
   margin: 10px;
   width: 100px;
+  user-select: none;
 `;
 
 //title
-const TitleDiv = styled.div`
-  border: 1px solid red;
-  height: 8.5%;
+const StyledTitle = styled.textarea`
+  height: 50px;
   width: 100%;
   text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  border: none;
+  resize: none;
+  background: none;
+  color: black;
+  font-size: 2em;
+  font-family: "Letter Gothic Std", monospace;
+  vertical-align: top;
+  outline: none;
 `;
 
 //note
 const NoteWrapper = styled.div`
-  border: 1px solid black;
   margin: 10px;
-  height: 95%;
+  height: 90%;
   width: 95%;
+  overflow: hidden;
+  border: none;
 `;
 
-//content
-const NoteContent = styled.div`
+const StyledTextArea = styled.textarea`
+margin-top: 0px;
+  border: none;
+  resize: none;
+  height: 394.5px;
+
   width: 100%;
-  height: auto;
-  border: 1px solid yellow;
+  overflow-x: auto;
+  padding: 10px;
+  border: none;
+  background: none;
+  color: black;
+  font-size: 1em;
+  font-family: "Letter Gothic Std", monospace;
+  vertical-align: top;
+  outline: none;
 `;
