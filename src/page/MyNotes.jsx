@@ -6,6 +6,7 @@ import {
   sortByCategory,
   sortByDate,
   sortByTitle,
+  updateNote
 } from "../services/noteService";
 import { useNavigate } from 'react-router-dom';
 import { StyledBackButton } from '../styles/GlobalStyles';
@@ -108,7 +109,7 @@ const GoButton = styled.button`
 
 const Note = ({ note }) => {
 
-
+  
   const [edit, setEdit] = useState(false);
   const [collaboratorToAdd, setCollaboratorToAdd] = useState('');
 
