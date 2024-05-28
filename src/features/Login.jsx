@@ -5,15 +5,9 @@ import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
 import { login } from "../services/apiFacade.js";
 import backgroundImage from '/src/img/and-machines-vqTWfa4DjEk-unsplash.jpg'; //CHANGE BACKGROUND IMAGE
 
-function Login({
-  setIsLoggedIn,
-  setLoggedInUser,
-  userJustCreated,
-  setUserJustCreated,
-}) {
+function Login({ setErrorMessage, errorMessage, setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCreated}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -27,7 +21,9 @@ function Login({
         setIsLoggedIn(true);
         setLoggedInUser(userDetails);
         setUserJustCreated(false);
-        navigate("/notes");
+
+        //console.log('Login successful:', userDetails);
+        navigate("/");
       } else {
         setErrorMessage(data.msg);
       }
@@ -51,7 +47,7 @@ function Login({
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
-                <i class="bx bxs-user"></i>
+                <i className="bx bxs-user"></i>
               </StyledInputBox>
               <StyledInputBox>
                 <input
@@ -60,7 +56,7 @@ function Login({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <i class="bx bxs-lock-alt"></i>
+                <i className="bx bxs-lock-alt"></i>
               </StyledInputBox>
               <StyledButton type="submit">Login</StyledButton>
             </form>

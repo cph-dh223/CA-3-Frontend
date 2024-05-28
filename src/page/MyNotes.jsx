@@ -18,33 +18,10 @@ const PageContainer = styled.div`
   }
 `;
 
-const Header = styled.h1`
-  /* margin-bottom: 20px; */
-`;
-
-const NoteContainer = styled.div`
-  /* display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: space-between;
-  width: 100%; */
-  background-color: rgba(255, 255, 255, 0.2);
-
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(20px);
-  border-radius: 10px;
-  height: 500px;
-  transition: ease-in-out .1s;
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.7);
-  }
-`;
-
 const NoteDiv = styled.div`
-width: 100%;
-height: 90%;
- border: solid red;
-
+  width: 100%;
+  height: 90%;
+  border: solid red;
 `;
 
 const EditButton = styled.button`
@@ -107,11 +84,10 @@ const Note = ({ note, title, category }) => {
       <StyledTitleDiv>
         {title} - Category: {category}
       </StyledTitleDiv>
-        <EditButton onClick={() => setEdit(!edit)}>
-          {edit ? "Stop Editing" : "Edit Note"}
-        </EditButton>
-        <NoteDiv contentEditable={edit}>{note}</NoteDiv>
-      
+      <EditButton onClick={() => setEdit(!edit)}>
+        {edit ? "Stop Editing" : "Edit Note"}
+      </EditButton>
+      <NoteDiv contentEditable={edit}>{note}</NoteDiv>
     </>
   );
 };
@@ -133,25 +109,21 @@ function MyNotes() {
 
   const sortNotesByCategory = async () => {
     const allNotesSorted = await sortByCategory();
-    console.log(allNotesSorted);
     setNotes(allNotesSorted);
   };
 
   const sortNotesByTitle = async () => {
     const allNotesSorted = await sortByTitle();
-    console.log(allNotesSorted);
     setNotes(allNotesSorted);
   };
 
   const sortNotesByDate = async () => {
     const allNotesSorted = await sortByDate();
-    console.log(allNotesSorted);
     setNotes(allNotesSorted);
   };
 
   const fetchAllNotes = async () => {
     const allNotes = await readAllNotes();
-    console.log(allNotes);
     setNotes(allNotes);
   };
 
@@ -161,10 +133,8 @@ function MyNotes() {
 
   return (
     <PageContainer>
-      <StyledBackButton onClick={() => navigate("/notes")}>
-        Go back
-      </StyledBackButton>
-      <Header>My Notes</Header>
+      <StyledBackButton onClick={() => navigate("/")}>Go back</StyledBackButton>
+      <h1>My Notes</h1>
 
       <DivForSearchBarAndSortButtons>
         <FrameDiv></FrameDiv>
@@ -188,9 +158,8 @@ function MyNotes() {
       </DivForSearchBarAndSortButtons>
       <MyNotesBody>
         {notes.map((note) => (
-          <NoteContainer>
+          <NoteContainer key={note.id}>
             <Note
-              key={note.id}
               note={note.content}
               title={note.title}
               category={note.category}
@@ -211,4 +180,18 @@ const MyNotesBody = styled.div`
   justify-content: center;
   width: 90%;
   margin: 0 auto;
+`;
+
+
+const NoteContainer = styled.div`
+
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  height: 500px;
+  transition: ease-in-out 0.1s;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
 `;
