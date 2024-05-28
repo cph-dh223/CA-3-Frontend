@@ -16,11 +16,13 @@ const Note = ({ note, title, category }) => {
 
   return (
     <>
+      <CategoryDiv>
+        <p>{category}</p>
+      </CategoryDiv>
       <NoteWrapper>
         <TitleDiv>
           {title} - Category: {category}
         </TitleDiv>
-        
         <button onClick={() => setEdit(!edit)}>
           {edit ? "Stop Editing" : "Edit Note"}
         </button>
@@ -163,7 +165,6 @@ const GoButton = styled.button`
   font-weight: 600;
 `;
 
-
 // MY NOTES GRID
 const MyNotesBody = styled.div`
   display: grid;
@@ -188,6 +189,20 @@ const NoteContainer = styled.div`
 `;
 
 //NOTE
+
+//category
+const CategoryDiv = styled.div`
+  border: none;
+  background-color: rgba(255, 217, 0, 0.5);
+  color: black;
+  text-align: center;
+  font-size: 1em;
+  border-radius: 10px;
+  padding: 5px 10px 5px 10px;
+  margin: 10px;
+  width: 100px;
+`;
+
 //title
 const TitleDiv = styled.div`
   border: 1px solid red;
@@ -213,8 +228,6 @@ const NoteWrapper = styled.div`
 //content
 const NoteContent = styled.div`
   width: 100%;
-  height: 91.5%;
+  height: auto;
   border: 1px solid yellow;
 `;
-
-
