@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
 //import { fetchData } from "../services/apiFacade.js";
@@ -6,18 +6,30 @@ import { BASE_URL } from "../utils/globalVariables.js";
 //import { login } from "../services/apiFacade.js";
 import { getUserWithRolesFromToken } from "../utils/decodeToken.js";
 import { login } from "../services/apiFacade.js";
+import { getUserFromToken } from "../services/userServise.js";
 
-function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCreated}) {
+function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCreated }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      const getUser = async () => {
+        const user = await getUserFromToken(token)
+        return user
+      } 
+      getUser().then((u) => setLoggedInUser(u))
+      setIsLoggedIn(true)
+      navigate("/notes");
+    }
+  }, []);
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    
+
 
     try {
       const data = await login(username, password);
@@ -45,9 +57,9 @@ function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCre
   return (
     <>
       <LoginPage>
-      
+
         <LoginContainer>
-        {userJustCreated ? (
+          {userJustCreated ? (
             <>
               <StyledCreatedUserParagraf>
                 You have succesfully created a user! You can now log in
@@ -58,7 +70,7 @@ function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCre
           )}
 
           <h1>Login</h1>
-          
+
           <Form onSubmit={handleLogin}>
             <Input
               type="text"
@@ -75,7 +87,7 @@ function Login({ setIsLoggedIn, setLoggedInUser, userJustCreated, setUserJustCre
             <LoginButton type="submit">Login</LoginButton>
           </Form>
 
-          <button onClick={()=> (navigate("/createUser"))}>Create user</button>
+          <button onClick={() => (navigate("/createUser"))}>Create user</button>
 
           {errorMessage != "" ? <p>ERROR: {errorMessage}</p> : <></>}
 

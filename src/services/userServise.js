@@ -18,5 +18,22 @@ const getUserEmails = async () => {
         console.log(e);
     }
 }
+const getUserFromToken = async () => {
+    try {
+        const token = localStorage.getItem("token")
 
-export { getUserEmails }
+        const result = await fetch(`${BASE_URL}/user/`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        return await result.json();
+
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+export { getUserEmails, getUserFromToken }

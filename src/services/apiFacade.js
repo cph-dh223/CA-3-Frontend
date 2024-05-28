@@ -5,21 +5,21 @@ function createUser(userDetailsEntered) {
   // Initiate the fetch request
 
   return fetch(`${BASE_URL}/auth/register`, {
-    method: "POST", 
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(userDetailsEntered), 
+    body: JSON.stringify(userDetailsEntered),
   })
-    
+
     .then((result) => {
-     
-      return result.json(); 
+
+      return result.json();
     })
     .catch((error) => {
-      
-      console.error("Error creating entity:", error); 
-      throw error; 
+
+      console.error("Error creating entity:", error);
+      throw error;
     });
 }
 
@@ -51,5 +51,4 @@ const login = async (username, password) => {
   }
 };
 
-export { login };
-export { createUser };
+export { login, createUser };
