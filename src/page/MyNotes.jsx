@@ -106,7 +106,7 @@ const GoButton = styled.button`
 `
 
 
-const Note = ({ note, title, category, date }) => {
+const Note = ({ note }) => {
 
 
   const [edit, setEdit] = useState(false);
@@ -144,7 +144,7 @@ const Note = ({ note, title, category, date }) => {
 
     <StyledMainNoteDiv>
       <StyledTitleDiv>
-        Title: {title} - Category: {category} - Date: {date}
+        Title: {note.title} - Category: {note.category} - Date: {note.date}
 
       </StyledTitleDiv>
       <NoteWrapper >
@@ -158,9 +158,8 @@ const Note = ({ note, title, category, date }) => {
 
           <>
             {note.colaborators.map((c) => (
-              <>
+              
                 <a key={c}>{c}</a>
-              </>
             ))}
           </>
 
@@ -264,10 +263,8 @@ function MyNotes() {
 
           <Note
             key={note.id}
-            note={note.content}
-            title={note.title}
-            category={note.category}
-            date ={note.date}
+            note={note}
+            
           />
 
         ))}
