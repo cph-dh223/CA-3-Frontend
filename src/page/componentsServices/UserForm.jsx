@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
 export default function UserForm({ updateUser, userToEdit, setUserToEdit, error , confirmPassword, setConfirmPassword, setError, success, setSuccess, role, setRole, password, setPassword}) {
   
@@ -32,7 +33,7 @@ const handleRolesChange = (e) =>{
   const handleChange = (e) => {
     setSuccess("");
     setError("");
-    if(e.target.id === "confirmPassword"){
+    if (e.target.id === "confirmPassword") {
       setConfirmPassword(e.target.value);
       
     }
@@ -116,3 +117,50 @@ const handleRolesChange = (e) =>{
     </>
   );
 }
+
+const StyledInputBox = styled.div`
+  width: 100%;
+  height: 30px;
+  margin: 30px 0;
+
+  input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: 1px solid grey;
+    border-radius: 10px;
+    font-size: 18px;
+    color: black;
+
+    &::placeholder {
+      color: black;
+    }
+  }
+`;
+const Styledwrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+`;
+
+const StyledDropDown = styled.div`
+  display: flex;
+  width: 100%;
+  height: 40px;
+  margin: 30px 0;
+
+  select {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: 1px solid grey;
+    border-radius: 10px;
+    font-size: 18px;
+    color: black;
+  }
+`;

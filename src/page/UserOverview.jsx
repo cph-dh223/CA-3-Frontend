@@ -3,57 +3,6 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import UserList from "./componentsServices/UserList";
 import UserForm from "./componentsServices/UserForm";
-const StyledDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 50px;
-  margin: auto;
-`;
-const StyledUserForm = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  label {
-    font-size: x;
-  }
-  input {
-    margin: 5px;
-    padding: 5px;
-    border-radius: 5px;
-  }
-  button {
-    margin: 5px;
-    padding: 5px;
-    border-radius: 5px;
-  }
-  select {
-    margin: 5px;
-    padding: 5px;
-    border-radius: 5px;
-  }
-`;
-
-const StyledUserTable = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-  th {
-    background-color: #f2f2f2;
-  }
-  th,
-  td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-    border-radius: 5px;
-  }
-`;
 
 export default function UserOverview() {
   //ADMIN ACCESS ONLY
@@ -183,3 +132,55 @@ export default function UserOverview() {
     </StyledDiv>
   );
 }
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px;
+  margin: auto;
+`;
+const StyledUserForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  label {
+    font-size: x;
+  }
+  input {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  button {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  select {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+`;
+
+const StyledUserTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    border-radius: 5px;
+  }
+`;
