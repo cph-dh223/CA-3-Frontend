@@ -11,11 +11,7 @@ import {
 } from "../services/noteService";
 import { useNavigate } from "react-router-dom";
 
-const Note = ({
-  note,
-  handleDelete,
-  handleUpdateNote,
-}) => {
+const Note = ({ note, handleDelete, handleUpdateNote }) => {
   const [noteContent, setNoteContent] = useState(note.content);
   const [noteTitle, setNoteTitle] = useState(note.title);
   const [category, setCategory] = useState(note.category);
@@ -23,7 +19,7 @@ const Note = ({
   const [contentChanged, setContentChanged] = useState(false);
 
   const handleCategoryChange = () => {
-    setContentChanged(true)
+    setContentChanged(true);
     setCategory((prevCategory) =>
       prevCategory === "NOTE" ? "REMINDER" : "NOTE"
     );
@@ -43,24 +39,32 @@ const Note = ({
   };
 
   const addColaboratroSubmit = async (e) => {
-    e.preventDefault()
-    const userEmails = await getUserEmails()
-    const newColaborator = userEmails.find(ue => ue.email === collaboratorToAdd)
+    e.preventDefault();
+    const userEmails = await getUserEmails();
+    const newColaborator = userEmails.find(
+      (ue) => ue.email === collaboratorToAdd
+    );
     console.log(newColaborator);
-    if(newColaborator){
-      note.colaborators = [...note.colaborators, newColaborator.email]
-      setCollaboratorToAdd('')
+    if (newColaborator) {
+      note.colaborators = [...note.colaborators, newColaborator.email];
+      setCollaboratorToAdd("");
     } else {
-      // TODO unhappy path 
+      // TODO unhappy path
     }
-  }
+  };
 
   return (
     <>
       <NoteWrapper>
         <i className="bx bx-x" onClick={() => handleDelete(note)}></i>
         {contentChanged ? (
-          <i className="bx bx-check" onClick={() => handleUpdateNote(note, noteContent, noteTitle, category )}></i>
+          <i
+            className="bx bx-check"
+            onClick={() => {
+              handleUpdateNote(note, noteContent, noteTitle, category);
+              setContentChanged(false);
+            }}
+          ></i>
         ) : (
           <i className="bx bx-radio-circle"></i>
         )}
@@ -150,6 +154,7 @@ function MyNotes() {
 
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
+    setNotes(notes.filter((note) => note.title.includes(query)));
   };
 
   const search = async () => {
@@ -180,7 +185,6 @@ function MyNotes() {
 
   useEffect(() => {
     fetchAllNotes();
-
   }, []);
 
   return (
@@ -193,7 +197,7 @@ function MyNotes() {
             value={query}
             onChange={handleQueryChange}
           ></SearchBar>
-          <i className="bx bx-search"></i>
+          <i className="bx bx-search" onClick={() => search}></i>
         </SearchWrapper>
         <SortSelectWrapper>
           <SortSelect onChange={handleSortChange}>
@@ -343,6 +347,9 @@ const CategoryDiv = styled.div`
   margin: 10px;
   width: 100px;
   user-select: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledDate = styled.div`
