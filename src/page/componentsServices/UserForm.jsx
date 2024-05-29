@@ -1,9 +1,34 @@
 import React, { useState, useEffect } from "react";
 
-export default function UserForm({ updateUser, userToEdit, error , confirmPassword, setConfirmPassword, setError, success, setSuccess}) {
-  const [user, setUser] = useState({ ...userToEdit });
+export default function UserForm({ updateUser, userToEdit, setUserToEdit, error , confirmPassword, setConfirmPassword, setError, success, setSuccess, role, setRole, password, setPassword}) {
+  
+  //const [userWithPassword, setUserWithPassword] = useState({ ...userToEdit });
+  //const [userWithRoles, setUserWithRoles] = useState({ ...userToEdit });
+  const blankUser = { email: "", password: "", roles: [] };
   const [showPassword, setShowPassword] = useState(false);
+  
+  //console.log(userToEdit.roles)
 
+
+const handlePasswordChange = (e) =>{
+  setPassword(e.target.value);
+  setUserToEdit((prevUser) => ({...prevUser, password: e.target.value}))
+
+}
+
+const handleConfirmPasswordChange = (e) =>{
+  setConfirmPassword(e.target.value);
+ 
+}
+
+const handleRolesChange = (e) =>{
+  setRole(e.target.value)
+  setUserToEdit((prevUser) => ({...prevUser, roles: [...prevUser.roles, e.target.value]}));
+}
+
+
+
+/*
   const handleChange = (e) => {
     setSuccess("");
     setError("");
@@ -12,25 +37,27 @@ export default function UserForm({ updateUser, userToEdit, error , confirmPasswo
       
     }
     else if (e.target.id === "roles") {
-      if (!user.roles.includes(e.target.value)) {
-        setUser({ ...user, roles: [...user.roles, e.target.value] });
+      if (!userWithRoles.roles.includes(e.target.value)) {
+        setUserWithRoles({ ...userWithRoles, roles: [...userWithRoles.roles, e.target.value] });
       } else {
         setError("Role already exists");
       }
     } else {
-      setUser({ ...user, [e.target.id]: e.target.value });
+      setUserWithPassword({ ...userWithPassword, [e.target.id]: e.target.value });
       console.log(e.target.id, e.target.value)
     }
   };
 
+  */
   useEffect(() => {
-    setUser(userToEdit);
-    setConfirmPassword(userToEdit.password);
+    //setUserWithPassword(userToEdit);
+    //setUserWithRoles(userToEdit);
+    //setConfirmPassword(userToEdit.password);
   }, [userToEdit]);
 
   return (
     <>
-      <h3 htmlFor="email">Edit user: {user.email}</h3>
+      <h3 htmlFor="email">Edit user: {userToEdit.email}</h3>
       <form>
         <label htmlFor="password">New Password</label>
         <br></br>
@@ -43,20 +70,22 @@ export default function UserForm({ updateUser, userToEdit, error , confirmPasswo
           id="password"
           type={showPassword ? "text" : "password"}
           placeholder="password"
-          onChange={handleChange}
-        />{" "}
+          onChange={handlePasswordChange}
+          value={password}
+        />
         <br></br>
         <input
           id="confirmPassword"
           type={showPassword ? "text" : "password"}
           placeholder="confirm password"
-          onChange={handleChange}
+          onChange={handleConfirmPasswordChange}
+          value={confirmPassword}
         />
         <br></br>
         <br></br>
         <label htmlFor="roles">Role </label>
         <br></br>
-        <select id="roles" onChange={handleChange}>
+        <select id="roles" onChange={handleRolesChange} value={role}>
           <option value="">Add role</option>
           <option value="user">user</option>
           <option value="admin">admin</option>
@@ -65,10 +94,20 @@ export default function UserForm({ updateUser, userToEdit, error , confirmPasswo
         <button
           onClick={(e) => {
             e.preventDefault();
-            updateUser(user);
+            updateUser(userToEdit, "password");
+            
           }}
         >
-          Confirm changes
+          Confirm password changes
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            updateUser(userToEdit, "roles");
+            setRole("")
+          }}
+        >
+          Confirm roles changes
         </button>
         <h3 style={{ color: "red" }}>{error}</h3>
         <h3 style={{ color: "green" }}>{success}</h3>
