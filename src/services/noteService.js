@@ -18,6 +18,24 @@ const createNote = async (note) => {
   }
 };
 
+const getUserEmails = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const result = await fetch(`${BASE_URL}/users/email`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await result.json();
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 const readAllNotes = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -148,4 +166,5 @@ export {
   updateNote,
   deleteNote,
   readAllNotes,
+  getUserEmails
 };

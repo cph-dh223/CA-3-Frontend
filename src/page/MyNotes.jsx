@@ -8,17 +8,16 @@ import {
   sortByTitle,
   deleteNote,
   updateNote,
-  getUserEmails
+  getUserEmails,
 } from "../services/noteService";
 import { useNavigate } from "react-router-dom";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 
 Modal.setAppElement("#root");
 
 const Note = ({ note, handleDelete, handleUpdateNote }) => {
   const [noteContent, setNoteContent] = useState(note.content);
   const [noteTitle, setNoteTitle] = useState(note.title);
-  const [noteCollaborators, setNoteCollaborators] = useState(note.colaborators);
   const [collaboratorToAdd, setCollaboratorToAdd] = useState("");
   const [category, setCategory] = useState(note.category);
   const [isEditing, setIsEditing] = useState(false);
@@ -47,7 +46,7 @@ const Note = ({ note, handleDelete, handleUpdateNote }) => {
 
   const handleChange = (e) => {
     setCollaboratorToAdd(e.target.value);
-  }
+  };
 
   const addColaboratroSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +56,13 @@ const Note = ({ note, handleDelete, handleUpdateNote }) => {
     );
     if (newColaborator) {
       note.colaborators = [...note.colaborators, newColaborator.email];
+      handleUpdateNote(
+        note,
+        noteContent,
+        noteTitle,
+        category,
+        note.colaborators
+      );
       setCollaboratorToAdd("");
     } else {
       // TODO unhappy path
@@ -102,30 +108,85 @@ const Note = ({ note, handleDelete, handleUpdateNote }) => {
             onChange={handleInputChange}
           />
         </ContentWrapper>
+        <div>
+          <ColabIcon>
+            <i
+              class="bx bxs-user-plus"
+              onClick={() => setModalIsOpen(true)}
+            ></i>
+          </ColabIcon>
+          <Modal
+            className="modal"
+            isOpen={modalIsOpen}
+            onRequestClose={() => setModalIsOpen(false)}
+            style={{
+              overlay: {
+                backgroundColor: "rgba(0, 0, 0, 0.617)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            }}
+          >
+            <StyledPopup>
+              <i class="bx bx-x" onClick={() => setModalIsOpen(false)}></i>
+              <PopupTitle>Add Collaborator</PopupTitle>
+              <form
+                onSubmit={addColaboratroSubmit}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <input
+                  style={{
+                    padding: "5px",
+                    width: "50%",
+                    height: "30px",
+                    borderRadius: "5px",
+                    margin: "10px",
+                    border: "none",
+                  }}
+                  type="text"
+                  onChange={handleChange}
+                />
+                <button
+                  type="submit"
+                  style={{
+                    padding: "10px",
+                    width: "50%",
+                    height: "40px",
+                    borderRadius: "5px",
+                    border: "none",
+                  }}
+                >
+                  add collaborator
+                </button>
+              </form>
+              {!isEditing ? (
+                <>
+                  <h3>Collaborators</h3>
+                  <hr></hr>
+                  <div
+                    style={{
+                      maxHeight: "84px", // Adjust as needed
+                      overflowY: "auto",
+                    }}
+                  >
+                    {note.colaborators.map((c) => (
+                      <a key={c}>
+                        {c}
+                        <br></br>
+                      </a>
+                    ))}
+                  </div>
+                </>
+              ) : null}
+            </StyledPopup>
+          </Modal>
+        </div>
       </NoteWrapper>
-      <div>
-        {!isEditing ? (
-          <>
-            {note.colaborators.map((c) => (
-              <a key={c}>{c}</a>
-            ))}
-            <button onClick={() => setModalIsOpen(true)}>
-              Add Collaborator
-            </button>
-          </>
-        ) : null}
-
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setModalIsOpen(false)}
-        >
-          <form onSubmit={addColaboratroSubmit}>
-            <input type="text" onChange={handleChange} />
-            <button type="submit">add collaborator</button>
-          </form>
-          <button onClick={() => setModalIsOpen(false)}>Close</button>
-        </Modal>
-      </div>
     </>
   );
 };
@@ -506,4 +567,45 @@ const StyledTextArea = styled.textarea`
   font-family: "Letter Gothic Std", monospace;
   vertical-align: top;
   outline: none;
+`;
+
+const ColabIcon = styled.div`
+  position: absolute;
+  right: 2%;
+  bottom: 0%;
+  i {
+    font-size: 2em;
+    color: #000000;
+    transition: all 0.5s ease;
+    &:hover {
+      cursor: pointer;
+      color: #12611e;
+    }
+  }
+`;
+
+const StyledPopup = styled.div`
+  background-color: #ffffffcd;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  height: 200px;
+  i {
+    font-size: 1.8em;
+    position: absolute;
+    left: 74.5%;
+    top: 35%;
+    cursor: pointer;
+  }
+`;
+
+const PopupTitle = styled.h2`
+  background-color: rgb(73, 73, 73);
+  padding: 5px;
+  border-radius: 20px;
+  margin: 5px;
+  font-size: 1.5em;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 500;
 `;
