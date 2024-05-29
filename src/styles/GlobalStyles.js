@@ -1,5 +1,5 @@
 import { createGlobalStyle, styled } from "styled-components";
-
+import backgroundImage from "/src/img/peter-steiner-1973-hmFb-uu0xog-unsplash.jpg"; //CHANGE BACKGROUND IMAGE
 
 const StyledBackButton = styled.button`
   background-color: #51555c;
@@ -7,45 +7,34 @@ const StyledBackButton = styled.button`
   padding: 2px;
 `;
 
-
 const GlobalStyles = createGlobalStyle`
 
-:root {
+html, body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
 
-    --turqois1: #50828c;
-    --turqois2: #50758c;
-    --turqois3: #50718c;
-    --turqois4: #506d8c;
-    --turqois5: #50698c;
-    --turqois6: #50658c;
-    --turqois7: #50618c;
-    --turqois8: #505d8c;
-    --turqois9: #50598c;
-    --turqois10: #50558c;
-
-    --gold1: #b3a064;
-    --gold2: #7d6b32;
-
-    
-    --gray1: #d7d8e0;
-    --gray2: #a8a9ad;
-    --gray3: #7c7c80; 
-    
-    }
-    
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; 
 }
 
+* {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
+  margin: 0;
+  padding: 0;
+ 
+}
 
-body{
-    font-family: 'PT Sans', 'Times New Roman'
+body {
+  background: url(${backgroundImage}) no-repeat center center fixed; 
+  background-size: cover;
 }
 `;
 
 export default GlobalStyles;
 
-export {StyledBackButton};
+export { StyledBackButton };
