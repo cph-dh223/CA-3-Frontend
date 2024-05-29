@@ -6,6 +6,7 @@ const createNote = async (note) => {
         const token = localStorage.getItem("token")
 
         const result = await fetch(`${BASE_URL}/user/note/create`, {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -26,7 +27,7 @@ const readAllNotes = async () => {
 
 
         if (token) {
-            const result = await fetch(`${BASE_URL}/user/notes/`, {
+            const result = await fetch(`${BASE_URL}/notes/`, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
