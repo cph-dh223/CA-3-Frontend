@@ -1,4 +1,11 @@
-export default function UserList({ users, deleteUser, setUserToEdit }) {
+export default function UserList({ users, deleteUser, setUserToEdit, setUserRolesBeforeEdit }) {
+
+  const setUserToEditAndRolesOfUser = (u) => {
+    setUserToEdit(u); 
+    setUserRolesBeforeEdit(u.roles);
+  };
+
+
   return (
     <table>
       <thead>
@@ -15,7 +22,7 @@ export default function UserList({ users, deleteUser, setUserToEdit }) {
             <td> {user.roles.join(", ")} </td>
             <td>
               <button onClick={() => deleteUser(user.email)}>Delete</button>
-              <button onClick={() => setUserToEdit(user)}>Edit</button>
+              <button onClick={() => setUserToEditAndRolesOfUser(user)}>Edit</button>
             </td>
           </tr>
         ))}
