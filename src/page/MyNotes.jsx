@@ -8,6 +8,7 @@ import {
   sortByTitle,
   updateNote
 } from "../services/noteService";
+
 import { useNavigate } from 'react-router-dom';
 import { StyledBackButton } from '../styles/GlobalStyles';
 import { getUserEmails } from '../services/userServise';
@@ -40,14 +41,18 @@ const NoteDiv = styled.div`
 `;
 
 const EditButton = styled.button`
-  align-self: flex-end;
-  color: #060606;
+  align-self: flex-start;
+  background-color: ${({ index }) => (index % 2 === 0 ? 'blue' : 'green')};
+  color: white;
 `;
 
 const NoteWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid #000000;
+
+  width: ${({ edit }) => (edit ? '100%' : 'calc(25% - 10px)')};
+
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -103,16 +108,25 @@ const SortByHeadline = styled.div`
 
 const GoButton = styled.button`
 
-
 `
 
-
+const NoteTextarea = styled.textarea`
+  flex-grow: 1;
+`
 const Note = ({ note }) => {
-
   
   const [edit, setEdit] = useState(false);
+  const [content, setContent] = useState(note.content);
   const [collaboratorToAdd, setCollaboratorToAdd] = useState('');
 
+
+
+  const handleNoteChange = (event) => {
+    setContent(event.target.value);
+    note.content = content;
+  };
+
+  
   const onEdit = () => {
     if (edit) {
       setEdit(false)
@@ -123,6 +137,7 @@ const Note = ({ note }) => {
     }
 
   }
+      
 
   const handleChange = (e) => {
     setCollaboratorToAdd(e.target.value)
@@ -148,6 +163,7 @@ const Note = ({ note }) => {
         Title: {note.title} - Category: {note.category} - Date: {note.date}
 
       </StyledTitleDiv>
+
       <NoteWrapper >
       <EditButton onClick={onEdit}>
         {edit ? 'Stop Editing' : 'Edit Note'}
@@ -176,11 +192,16 @@ const Note = ({ note }) => {
           </>
       }
 
-
       <hr />
-      <NoteDiv contentEditable={edit}>{note.content}</NoteDiv>
+      {edit ? (
+        <NoteTextarea  onChange={handleNoteChange} value={content} />
+      ) : (
+        <NoteDiv contentEditable={edit} >{note.content}</NoteDiv>
+      )}
     </NoteWrapper>
+
     </StyledMainNoteDiv>
+
   );
 };
 
@@ -228,6 +249,7 @@ function MyNotes() {
 
   useEffect(() => {
     fetchAllNotes();
+
   }, []);
 
   return (
