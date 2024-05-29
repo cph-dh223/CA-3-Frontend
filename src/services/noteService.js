@@ -1,123 +1,112 @@
-
 import { BASE_URL } from "../utils/globalVariables";
 
 const createNote = async (note) => {
-    try {
-        const token = localStorage.getItem("token")
+  try {
+    const token = localStorage.getItem("token");
 
-        const result = await fetch(`${BASE_URL}/user/note/create`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: {
-                ...note
-            }
-        });
+    const result = await fetch(`${BASE_URL}/user/note/create`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(note),
+    });
 
-        return await result.json();
-
-    } catch (e) {
-        console.log(e);
-    }
-}
+    return await result.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const readAllNotes = async () => {
-    try {
-        const token = localStorage.getItem("token")
+  try {
+    const token = localStorage.getItem("token");
 
+    if (token) {
+      const result = await fetch(`${BASE_URL}/notes/`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        if (token) {
-            const result = await fetch(`${BASE_URL}/notes/`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-            });
+      const theResult = await result.json();
 
-        const theResult = await result.json();
-        
-        return theResult;
+      return theResult;
     }
-
-    } catch (e) {
-        console.log(e);
-    }
-}
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const readNote = async () => {
-    try {
-        const token = localStorage.getItem("token")
+  try {
+    const token = localStorage.getItem("token");
 
-        const result = await fetch(`${BASE_URL}/user/note`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-        });
+    const result = await fetch(`${BASE_URL}/user/note`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        return await result.json();
-
-    } catch (e) {
-        console.log(e);
-    }
-}
+    return await result.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const updateNote = async (note) => {
-    try {
-        const token = localStorage.getItem("token")
+  try {
+    const token = localStorage.getItem("token");
 
-        const result = await fetch(`${BASE_URL}/user/note/update/${note.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body:{
-                ...note
-            }
-        });
-        return await result.json();
-
-    } catch (e) {
-        console.log(e);
-    }
-}
+    const result = await fetch(`${BASE_URL}/user/note/update/${note.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(note),
+    });
+    return await result.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const deleteNote = async (note) => {
-    try {
-        const token = localStorage.getItem("token")
+  try {
+    const token = localStorage.getItem("token");
 
-        const result = await fetch(`${BASE_URL}/user/note/delete/${note.id}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-        });
+    const result = await fetch(`${BASE_URL}/user/note/delete/${note.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        return await result.json();
-
-    } catch (e) {
-        console.log(e);
-    }
-}
+    return await result.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const searchByTitle = async (seachString) => {
   try {
     const token = localStorage.getItem("token");
 
-        const result = await fetch(`${BASE_URL}/notes/search/${seachString}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
+    const result = await fetch(`${BASE_URL}/notes/search/${seachString}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        return await result.json();
-
-    } catch (e) {
-        console.log(e);
-    }
+    return await result.json();
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const sortByCategory = () => {
@@ -129,13 +118,10 @@ const sortByTitle = () => {
 };
 
 const sortByDate = () => {
-
-    return sortByFetch('date')
+  return sortByFetch("date");
 };
 
-
 const sortByFetch = async (endURL) => {
-
   try {
     const token = localStorage.getItem("token");
 
@@ -146,10 +132,20 @@ const sortByFetch = async (endURL) => {
       },
     });
 
-        return await result.json();
-    } catch (e) {
-        console.log(e);
-    }
-}
+    return await result.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
 
-export { searchByTitle, sortByCategory, sortByTitle, sortByDate, createNote, readNote, updateNote, deleteNote, readAllNotes};
+export {
+  searchByTitle,
+  sortByCategory,
+  sortByTitle,
+  sortByDate,
+  createNote,
+  readNote,
+  updateNote,
+  deleteNote,
+  readAllNotes,
+};
