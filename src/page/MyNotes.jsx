@@ -8,15 +8,22 @@ import {
   sortByTitle,
   deleteNote,
   updateNote,
+  getUserEmails
 } from "../services/noteService";
 import { useNavigate } from "react-router-dom";
+import Modal from 'react-modal';
+
+Modal.setAppElement("#root");
 
 const Note = ({ note, handleDelete, handleUpdateNote }) => {
   const [noteContent, setNoteContent] = useState(note.content);
   const [noteTitle, setNoteTitle] = useState(note.title);
+  const [noteCollaborators, setNoteCollaborators] = useState(note.colaborators);
+  const [collaboratorToAdd, setCollaboratorToAdd] = useState("");
   const [category, setCategory] = useState(note.category);
   const [isEditing, setIsEditing] = useState(false);
   const [contentChanged, setContentChanged] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleCategoryChange = () => {
     setContentChanged(true);
@@ -38,13 +45,16 @@ const Note = ({ note, handleDelete, handleUpdateNote }) => {
     }
   };
 
+  const handleChange = (e) => {
+    setCollaboratorToAdd(e.target.value);
+  }
+
   const addColaboratroSubmit = async (e) => {
     e.preventDefault();
     const userEmails = await getUserEmails();
     const newColaborator = userEmails.find(
       (ue) => ue.email === collaboratorToAdd
     );
-    console.log(newColaborator);
     if (newColaborator) {
       note.colaborators = [...note.colaborators, newColaborator.email];
       setCollaboratorToAdd("");
@@ -93,27 +103,29 @@ const Note = ({ note, handleDelete, handleUpdateNote }) => {
           />
         </ContentWrapper>
       </NoteWrapper>
-      {/* {
-        !isEditing ?
-
+      <div>
+        {!isEditing ? (
           <>
             {note.colaborators.map((c) => (
-              
-                <a key={c}>{c}</a>
+              <a key={c}>{c}</a>
             ))}
+            <button onClick={() => setModalIsOpen(true)}>
+              Add Collaborator
+            </button>
           </>
+        ) : null}
 
-          :
-          <>
-            <form onSubmit={addColaboratroSubmit}>
-              <input
-                type='text'
-                onChange={handleChange}
-              />
-              <button type='submit'>add colaborator</button>
-            </form>
-          </>
-      } */}
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={() => setModalIsOpen(false)}
+        >
+          <form onSubmit={addColaboratroSubmit}>
+            <input type="text" onChange={handleChange} />
+            <button type="submit">add collaborator</button>
+          </form>
+          <button onClick={() => setModalIsOpen(false)}>Close</button>
+        </Modal>
+      </div>
     </>
   );
 };
@@ -265,6 +277,14 @@ const SortSelect = styled.select`
   padding: 0.5vw;
   flex-grow: 0.1;
   //height: 20px;
+  @media (max-width: 586px) {
+    max-width: 90px;
+    margin: 0 25px 0 0;
+  }
+  @media (max-width: 480px) {
+    max-width: 90px;
+    margin: 0 5px 0 0;
+  }
 `;
 
 const SearchBar = styled.input`
