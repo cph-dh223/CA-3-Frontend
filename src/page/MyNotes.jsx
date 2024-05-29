@@ -89,8 +89,8 @@ const Note = ({
           />
         </ContentWrapper>
       </NoteWrapper>
-      {
-        !edit ?
+      {/* {
+        !isEditing ?
 
           <>
             {note.colaborators.map((c) => (
@@ -109,7 +109,7 @@ const Note = ({
               <button type='submit'>add colaborator</button>
             </form>
           </>
-      }
+      } */}
     </>
   );
 };
