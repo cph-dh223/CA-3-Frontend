@@ -96,8 +96,8 @@ const handleRolesChange = (e) =>{
           onClick={(e) => {
             e.preventDefault();
             updateUser(userToEdit, "password");
-            
           }}
+          disabled={!userToEdit.email || password === ""}
         >
           Confirm password changes
         </button>
@@ -107,6 +107,7 @@ const handleRolesChange = (e) =>{
             updateUser(userToEdit, "roles");
             setRole("")
           }}
+          disabled={!userToEdit.email || role === ""}
         >
           Confirm roles changes
         </button>
