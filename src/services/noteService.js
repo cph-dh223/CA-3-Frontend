@@ -68,6 +68,7 @@ const updateNote = async (note) => {
         const token = localStorage.getItem("token")
 
         const result = await fetch(`${BASE_URL}/user/note/update/${note.id}`, {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`

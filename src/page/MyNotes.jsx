@@ -6,17 +6,24 @@ import {
   sortByCategory,
   sortByDate,
   sortByTitle,
+  deleteNote,
+  updateNote,
 } from "../services/noteService";
 import { useNavigate } from "react-router-dom";
 
-const Note = ({ note }) => {
+const Note = ({
+  note,
+  handleDelete,
+  handleUpdateNote,
+}) => {
   const [noteContent, setNoteContent] = useState(note.content);
   const [noteTitle, setNoteTitle] = useState(note.title);
   const [category, setCategory] = useState(note.category);
-  const [edit, setEdit] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [contentChanged, setContentChanged] = useState(false);
 
   const handleCategoryChange = () => {
+    setContentChanged(true)
     setCategory((prevCategory) =>
       prevCategory === "NOTE" ? "REMINDER" : "NOTE"
     );
@@ -27,7 +34,7 @@ const Note = ({ note }) => {
   };
 
   const handleInputChange = (event) => {
-    setEdit(true);
+    setContentChanged(true);
     if (event.target.id === "title") {
       setNoteTitle(event.target.value);
     } else {
@@ -38,8 +45,12 @@ const Note = ({ note }) => {
   return (
     <>
       <NoteWrapper>
-        <i className="bx bx-x"></i>
-        <i className="bx bx-check"></i>
+        <i className="bx bx-x" onClick={() => handleDelete(note)}></i>
+        {contentChanged ? (
+          <i className="bx bx-check" onClick={() => handleUpdateNote(note, noteContent, noteTitle, category )}></i>
+        ) : (
+          <i className="bx bx-radio-circle"></i>
+        )}
         <CategoryDiv $category={category} onClick={handleCategoryChange}>
           <p>{category}</p>
         </CategoryDiv>
@@ -92,6 +103,17 @@ function MyNotes() {
     }
   };
 
+  const handleDelete = async (note) => {
+    await deleteNote(note);
+    setNotes(notes.filter((n) => n.id !== note.id));
+  };
+
+  const handleUpdateNote = async (thisNote, content, title, category) => {
+    const note = { ...thisNote, content, title, category };
+    console.log(note);
+    updateNote(note);
+  };
+
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
   };
@@ -118,6 +140,7 @@ function MyNotes() {
 
   const fetchAllNotes = async () => {
     const allNotes = await readAllNotes();
+    console.log(allNotes);
     setNotes(allNotes);
   };
 
@@ -128,18 +151,18 @@ function MyNotes() {
   return (
     <PageContainer>
       <DivForSearchBarAndSortButtons>
-          <SearchWrapper>
-            <SearchBar
-              type="text"
-              placeholder="Search..."
-              value={query}
-              onChange={handleQueryChange}
-            ></SearchBar>
-            <i className="bx bx-search"></i>
-          </SearchWrapper>
+        <SearchWrapper>
+          <SearchBar
+            type="text"
+            placeholder="Search..."
+            value={query}
+            onChange={handleQueryChange}
+          ></SearchBar>
+          <i className="bx bx-search"></i>
+        </SearchWrapper>
         <SortSelectWrapper>
           <SortSelect onChange={handleSortChange}>
-            <option value="" disabled selected>
+            <option value="" disabled>
               Sort by...
             </option>
             <option>Category</option>
@@ -151,7 +174,11 @@ function MyNotes() {
       <MyNotesBody>
         {notes.map((note) => (
           <NoteContainer key={note.id}>
-            <Note note={note} />
+            <Note
+              note={note}
+              handleDelete={handleDelete}
+              handleUpdateNote={handleUpdateNote}
+            />
           </NoteContainer>
         ))}
       </MyNotesBody>
@@ -177,17 +204,17 @@ const DivForSearchBarAndSortButtons = styled.div`
   align-items: center;
   padding: 1vw;
   margin-bottom: 4vw;
-  border: none;
   width: 100%;
 `;
 
 const SortSelectWrapper = styled.div`
+  border: none;
   display: flex;
   justify-content: flex-end;
 `;
 
 const SortSelect = styled.select`
-margin: 0 38px 0 0;
+  margin: 0 38px 0 0;
   border: none;
   border-radius: 10px 10px 5px 5px;
   background-color: #fff;
@@ -361,6 +388,19 @@ const NoteWrapper = styled.div`
     }
   }
   .bx.bx-check {
+    color: #0080008e;
+    font-size: 2.5em;
+    position: absolute;
+    left: 90%;
+    transform: translateY(-15%);
+    translate: -85%;
+    transition: all 0.5s ease;
+    &:hover {
+      cursor: pointer;
+      color: #008000;
+    }
+  }
+  .bx.bx-radio-circle {
     color: #0080008e;
     font-size: 2.5em;
     position: absolute;
