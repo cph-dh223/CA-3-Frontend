@@ -32,8 +32,13 @@ function AddNote() {
     const note = {title, content, category}
 
     try {
-      const result = await createNote(note);
+        createNote(note);
 
+        setMessage("Note successfully saved")
+        setTitle("")
+        setContent("")
+        setCategory("")
+     
     } catch (error) {
       setMessage("Error" + error.message)
     }
