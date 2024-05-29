@@ -111,7 +111,7 @@ const Note = ({ note, handleDelete, handleUpdateNote }) => {
         <div>
           <ColabIcon>
             <i
-              class="bx bxs-user-plus"
+              className="bx bxs-user-plus"
               onClick={() => setModalIsOpen(true)}
             ></i>
           </ColabIcon>
@@ -129,7 +129,7 @@ const Note = ({ note, handleDelete, handleUpdateNote }) => {
             }}
           >
             <StyledPopup>
-              <i class="bx bx-x" onClick={() => setModalIsOpen(false)}></i>
+              <i className="bx bx-x" onClick={() => setModalIsOpen(false)}></i>
               <PopupTitle>Add Collaborator</PopupTitle>
               <form
                 onSubmit={addColaboratroSubmit}
@@ -283,7 +283,7 @@ function MyNotes() {
           </SortSelect>
         </SortSelectWrapper>
       </DivForSearchBarAndSortButtons>
-      <MyNotesBody>
+      <MyNotesBody $oneNote={notes.length===1}>
         {notes.map((note) => (
           <NoteContainer key={note.id}>
             <Note
@@ -391,9 +391,11 @@ const MyNotesBody = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 50px;
-  justify-content: center;
-  width: 90%;
+  justify-content: space-between;
+  width: 100%;
   margin: 40px auto auto auto;
+  justify-items: ${(props) => (props.$oneNote ? "center;" : "")};
+  max-width: ${(props) => (props.$oneNote ? "30%;" : "")};
 `;
 
 // NOTE CONTAINERCARD
