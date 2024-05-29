@@ -7,7 +7,7 @@ import { createNote } from '../services/noteService';
 function AddNote() {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
-  const [note, setNote] = useState('');
+  const [content, setContent] = useState('');
   const [category, setCategory] = useState('');
   const [message, setMessage] = useState('');
 
@@ -15,8 +15,8 @@ function AddNote() {
     setTitle(event.target.value);
   };
 
-  const handleNoteChange = (event) => {
-    setNote(event.target.value);
+  const handleContentChange = (event) => {
+    setContent(event.target.value);
   };
 
   const handleCategoryChange = (event) => {
@@ -26,10 +26,10 @@ function AddNote() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Title: ', title);
-    console.log('Note: ', note);
+    console.log('Content: ', content);
     console.log('Category: ', category);
 
-    const notes = {title, note, category}
+    const notes = {title, content, category}
 
     try {
       const result = await createNote(notes);
@@ -37,7 +37,7 @@ function AddNote() {
       if (result.success){
         setMessage("Note successfully saved")
         setTitle("")
-        setNote("")
+        setContent("")
         setCategory("")
       } else {
         setMessage("Failed to save note")
@@ -62,20 +62,20 @@ function AddNote() {
           />
           <StyleSelect value={category} onChange={handleCategoryChange} required>
             <option value="">Choose a category</option>
-            <option value="Note">Note</option>
-            <option value="Reminder">Reminder</option>
+            <option value="NOTE">Content</option>
+            <option value="REMINDER">Reminder</option>
           </StyleSelect>
           Note:
           <StyleTextArea 
-          value={note} 
-          onChange={handleNoteChange} 
+          value={content} 
+          onChange={handleContentChange} 
           placeholder="Write note here." 
           required
           />
         
           <SubmitButton type="submit" value="Add Note" />
       </form>
-      {message && <message>{message}</message>}
+      {message && <Message>{message}</Message>}
     </Container>
   );
 }
