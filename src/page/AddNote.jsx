@@ -2,6 +2,83 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { StyledBackButton } from '../styles/GlobalStyles';
+import { createNote } from '../services/noteService';
+
+function AddNote() {
+  const navigate = useNavigate();
+  const [title, setTitle] = useState('');
+  const [note, setNote] = useState('');
+  const [category, setCategory] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleNoteChange = (event) => {
+    setNote(event.target.value);
+  };
+
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log('Title: ', title);
+    console.log('Note: ', note);
+    console.log('Category: ', category);
+
+    const notes = {title, note, category}
+
+    try {
+      const result = await createNote(notes);
+
+      if (result.success){
+        setMessage("Note successfully saved")
+        setTitle("")
+        setNote("")
+        setCategory("")
+      } else {
+        setMessage("Failed to save note")
+      }
+    } catch (error) {
+      setMessage("Error" + error.message)
+    }
+  };
+
+  return (
+    <Container>
+    <StyledBackButton onClick={()=>(navigate("/notes"))}>
+      Go back
+    </StyledBackButton>
+      <form onSubmit={handleSubmit}>
+          <StyleInput 
+          type="text" 
+          value={title} 
+          onChange={handleTitleChange} 
+          placeholder="Title" 
+          required
+          />
+          <StyleSelect value={category} onChange={handleCategoryChange} required>
+            <option value="">Choose a category</option>
+            <option value="Note">Note</option>
+            <option value="Reminder">Reminder</option>
+          </StyleSelect>
+          Note:
+          <StyleTextArea 
+          value={note} 
+          onChange={handleNoteChange} 
+          placeholder="Write note here." 
+          required
+          />
+        
+          <SubmitButton type="submit" value="Add Note" />
+      </form>
+      {message && <message>{message}</message>}
+    </Container>
+  );
+}
 
 const Container = styled.div`
   display: flex;
@@ -60,54 +137,11 @@ const StyleTextArea = styled.textarea`
   height: 200px;
 `;
 
+const Message = styled.p`
+  margin-top: 10px;
+  font-size: 14px;
+  color: ${props => (props.error ? 'red' : 'green')};
+`;
 
-function AddNote() {
-  const navigate = useNavigate();
-  const [title, setTitle] = useState('');
-  const [note, setNote] = useState('');
-  const [topic, setTopic] = useState('');
-
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleNoteChange = (event) => {
-    setNote(event.target.value);
-  };
-
-  const handleTopicChange = (event) => {
-    setTopic(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Titel: ', title);
-    console.log('Note: ', note);
-    console.log('Emne: ', topic);
-    setTitle('');
-    setNote('');
-    setTopic('');
-  };
-
-  return (
-    <Container>
-    <StyledBackButton onClick={()=>(navigate("/notes"))}>
-      Go back
-    </StyledBackButton>
-      <form onSubmit={handleSubmit}>
-          <StyleInput type="text" value={title} onChange={handleTitleChange} placeholder="Titel" required/>
-          <StyleSelect value={topic} onChange={handleTopicChange} required>
-            <option value="">Vælg et emne</option>
-            <option value="Note">Note</option>
-            <option value="Reminder">Reminder</option>
-          </StyleSelect>
-          Note:
-          <StyleTextArea value={note} onChange={handleNoteChange} placeholder="Write note here." required />
-        
-          <SubmitButton type="submit" value="Add Note" />
-      </form>
-    </Container>
-  );
-}
 
 export default AddNote;
