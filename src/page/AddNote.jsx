@@ -32,7 +32,7 @@ function AddNote() {
     const note = {title, content, category}
 
     try {
-      await createNote(note);
+      const result = await createNote(note);
 
     } catch (error) {
       setMessage("Error" + error.message)
