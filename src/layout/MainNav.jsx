@@ -154,7 +154,7 @@ const MainNav = ({ setIsLoggedIn, loggedInUser, setLoggedInUser }) => {
           </StyledLi>
         )}
         <StyledLi>
-          <StyledNavLink to="/note">Notes</StyledNavLink>
+          <StyledNavLink to="/">Notes</StyledNavLink>
         </StyledLi>
         <StyledLi>
           <StyledNavLink to="/about">About</StyledNavLink>
