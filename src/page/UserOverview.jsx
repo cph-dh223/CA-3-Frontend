@@ -8,11 +8,22 @@ export default function UserOverview() {
   //ADMIN ACCESS ONLY
 
   const blankUser = { email: "", password: "", roles: [] };
+
+
   const [users, setUsers] = useState([]);
-  const [userToEdit, setuserToEdit] = useState(blankUser);
+  
+  const [userToEdit, setuserToEdit] = useState({});
+  
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [password, setPassword] = useState("");
+    
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  
+  //const [confirmPassword, setConfirmPassword] = useState("");
+  
 
   useEffect(() => {
     fetchUsers();
@@ -25,30 +36,52 @@ export default function UserOverview() {
     const response = await fetch(BASE_URL + "/users/delete/" + email, {
       method: "DELETE",
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-    }).then(()=>setSuccess("User Deleted")).catch((error) => setError("Something went wrong :("));
+    })
+      .then(() => setSuccess("User Deleted"))
+      .catch((error) => setError("Something went wrong :("));
     setUsers(users.filter((user) => user.email !== email));
   }
 
-  async function updateUser(userToUpdate) {
-    setSuccess("");
-    setError("");
-    if (userToUpdate.password != confirmPassword) { 
-      setError("Passwords do not match");
+  
+  async function updateUser(userJustEdited, pswOrRoles) {
+    console.log("User email, password and roles before edit: " + userJustEdited.email + " " + userJustEdited.password + " " + userJustEdited.roles);
+
+    if (pswOrRoles === "password") {
+     
+      //setUserThatHasBeenEdited({ ...userThatHasBeenEdited, password: password });
+      setSuccess("");
+      setError("");
+      //check password like we do in register when that is implemented
+      if (userJustEdited.password != confirmPassword) {
+        console.log("PASSWORDS DO NOT MATCH");
+        setError("Passwords do not match");
+        setConfirmPassword("");
+  
+        return;
+      }
       setConfirmPassword("");
-      return;
+      setPassword("");
+    } else {
+    
+      delete userJustEdited.password;
+      
     }
-    //check password like we do in register when that is implemented
-    if (users.find((user) => user.email === userToUpdate.email)) {
-      console.log("User is being updated: \n", userToUpdate);
+
+    console.log("BEFORE IF STATEMENT");
+
+    if (users.find((userBeforeEdit) => userBeforeEdit.email === userJustEdited.email)) {
+      
+      console.log("User is being updated: \n", userJustEdited);
+
       const response = await fetch(BASE_URL + "/users/update/", {
         method: "PUT",
-        body: JSON.stringify(userToUpdate),
+        body: JSON.stringify(userJustEdited),
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
         .then(() => {
           setUsers(
-            users.map((user) =>
-              user.email === userToUpdate.email ? userToUpdate : user
+            users.map((userInUsers) =>
+              userInUsers.email === userJustEdited.email ? userJustEdited : userInUsers
             )
           );
           setSuccess("User Updated!");
@@ -72,6 +105,7 @@ export default function UserOverview() {
         <UserForm
           updateUser={updateUser}
           userToEdit={userToEdit}
+          setUserToEdit={setuserToEdit}
           setConfirmPassword={setConfirmPassword}
           confirmPassword={confirmPassword}
           error={error}
@@ -79,6 +113,10 @@ export default function UserOverview() {
           confirmPasswordchange={confirmPassword}
           setSuccess={setSuccess}
           success={success}
+          role={role}
+          setRole={setRole}
+          password={password}
+          setPassword={setPassword}
         />
       </StyledUserForm>
       <br></br>
@@ -88,6 +126,7 @@ export default function UserOverview() {
           users={users}
           deleteUser={deleteUser}
           setUserToEdit={setuserToEdit}
+          
         />
       </StyledUserTable>
     </StyledDiv>

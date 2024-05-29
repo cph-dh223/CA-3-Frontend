@@ -5,6 +5,7 @@ const createNote = async (note) => {
     const token = localStorage.getItem("token");
 
     const result = await fetch(`${BASE_URL}/user/note/create`, {
+        method: 'POST',
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
