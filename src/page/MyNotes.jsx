@@ -42,6 +42,19 @@ const Note = ({
     }
   };
 
+  const addColaboratroSubmit = async (e) => {
+    e.preventDefault()
+    const userEmails = await getUserEmails()
+    const newColaborator = userEmails.find(ue => ue.email === collaboratorToAdd)
+    console.log(newColaborator);
+    if(newColaborator){
+      note.colaborators = [...note.colaborators, newColaborator.email]
+      setCollaboratorToAdd('')
+    } else {
+      // TODO unhappy path 
+    }
+  }
+
   return (
     <>
       <NoteWrapper>
@@ -76,6 +89,27 @@ const Note = ({
           />
         </ContentWrapper>
       </NoteWrapper>
+      {
+        !edit ?
+
+          <>
+            {note.colaborators.map((c) => (
+              
+                <a key={c}>{c}</a>
+            ))}
+          </>
+
+          :
+          <>
+            <form onSubmit={addColaboratroSubmit}>
+              <input
+                type='text'
+                onChange={handleChange}
+              />
+              <button type='submit'>add colaborator</button>
+            </form>
+          </>
+      }
     </>
   );
 };
@@ -146,6 +180,7 @@ function MyNotes() {
 
   useEffect(() => {
     fetchAllNotes();
+
   }, []);
 
   return (
