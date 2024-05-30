@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { StyledBackButton } from "../styles/GlobalStyles";
 import { createNote } from "../services/noteService";
 
-function AddNote({ setAddNoteModalIsOpen, setNotes }) {
+function AddNote({ setAddNoteModalIsOpen, setNotes , setAllNotes}) {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -32,6 +32,9 @@ function AddNote({ setAddNoteModalIsOpen, setNotes }) {
 
       setMessage("Note successfully saved");
       setNotes((prevNotes) => {
+        return [...prevNotes, addedNote];
+      });
+      setAllNotes((prevNotes) => {
         return [...prevNotes, addedNote];
       });
       setTitle("");
