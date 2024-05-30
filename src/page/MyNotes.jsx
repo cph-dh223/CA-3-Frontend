@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   readAllNotes,
-  searchByTitle,
-  sortByCategory,
-  sortByDate,
-  sortByTitle,
   deleteNote,
   updateNote,
 } from "../services/noteService";
@@ -123,7 +119,6 @@ function MyNotes() {
 
   const [allNotes, setAllNotes] = useState([]);
   const [notes, setNotes] = useState([]);
-
   const [query, setQuery] = useState("");
 
   const handleSortChange = (event) => {
