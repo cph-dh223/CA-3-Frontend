@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   readAllNotes,
-  searchByTitle,
-  sortByCategory,
-  sortByDate,
-  sortByTitle,
   deleteNote,
   updateNote,
   getUserEmails,
@@ -196,6 +192,7 @@ function MyNotes() {
   const navigate = useNavigate();
   const [addNote, setAddNote] = useState(false);
 
+  const [allNotes, setAllNotes] = useState([]);
   const [notes, setNotes] = useState([]);
   const [query, setQuery] = useState("");
   const [addNoteModalIsOpen, setAddNoteModalIsOpen] = useState(false);
@@ -217,6 +214,27 @@ function MyNotes() {
     }
   };
 
+
+  const filterNotes = (query) => {
+    
+    if (query === " " || query === "") {
+      setNotes([...allNotes]);
+    } else {
+      const filteredNotes = [...allNotes].filter(note => note.title.includes(query));
+      setNotes(filteredNotes); 
+    }
+  }
+  const handleQueryChange = (e) => {
+    setQuery(e.target.value)
+    
+  };
+  
+  // const search = async () => {
+  //   const allNotesFromSearch = await searchByTitle(query);
+  //   setNotes(allNotesFromSearch);
+
+  // }
+
   const handleDelete = async (note) => {
     await deleteNote(note);
     setNotes(notes.filter((n) => n.id !== note.id));
@@ -227,41 +245,44 @@ function MyNotes() {
     console.log(note);
     updateNote(note);
   };
-
+/*
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
-    setNotes(notes.filter((note) => note.title.includes(query)));
+    setNotes([...notes].filter((note) => note.title.includes(e.target.value)));
   };
+  */
 
-  const search = async () => {
-    const allNotesFromSearch = await searchByTitle(query);
-    setNotes(allNotesFromSearch);
-  };
+
 
   const sortNotesByCategory = async () => {
-    const allNotesSorted = await sortByCategory();
+    const allNotesSorted = [...notes].sort((n1, n2) => n1.category.localeCompare(n2.category));
     setNotes(allNotesSorted);
   };
 
   const sortNotesByTitle = async () => {
-    const allNotesSorted = await sortByTitle();
+    const allNotesSorted = [...notes].sort((n1, n2) => n1.title.localeCompare(n2.title));
     setNotes(allNotesSorted);
   };
 
   const sortNotesByDate = async () => {
-    const allNotesSorted = await sortByDate();
+    const allNotesSorted = [...notes].sort((n1, n2) => n1.date.localeCompare(n2.date));
     setNotes(allNotesSorted);
   };
 
   const fetchAllNotes = async () => {
     const allNotes = await readAllNotes();
     console.log(allNotes);
+    setAllNotes(allNotes);
     setNotes(allNotes);
   };
 
   useEffect(() => {
     fetchAllNotes();
   }, []);
+
+  useEffect(() => {
+    filterNotes(query);
+  }, [query]);
 
   return (
     <PageContainer>
@@ -299,7 +320,7 @@ function MyNotes() {
             value={query}
             onChange={handleQueryChange}
           ></SearchBar>
-          <i className="bx bx-search" onClick={() => search}></i>
+          <i className="bx bx-search"></i>
           <AddNoteIcon>
             <i
               className="bx bxs-file-plus"

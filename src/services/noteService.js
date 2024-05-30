@@ -42,7 +42,7 @@ const readAllNotes = async () => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      const result = await fetch(`${BASE_URL}/notes/`, {
+      const result = await fetch(`${BASE_URL}/user/notes/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -111,11 +111,12 @@ const deleteNote = async (note) => {
   }
 };
 
+/*
 const searchByTitle = async (seachString) => {
   try {
     const token = localStorage.getItem("token");
 
-    const result = await fetch(`${BASE_URL}/notes/search/${seachString}`, {
+    const result = await fetch(`${BASE_URL}/user/notes/search/${seachString}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -144,7 +145,7 @@ const sortByFetch = async (endURL) => {
   try {
     const token = localStorage.getItem("token");
 
-    const result = await fetch(`${BASE_URL}/notes/sort/${endURL}`, {
+    const result = await fetch(`${BASE_URL}/user/notes/sort/${endURL}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -157,11 +158,9 @@ const sortByFetch = async (endURL) => {
   }
 };
 
+*/
 export {
-  searchByTitle,
-  sortByCategory,
-  sortByTitle,
-  sortByDate,
+
   createNote,
   readNote,
   updateNote,
