@@ -209,6 +209,7 @@ function MyNotes() {
 
   const navigate = useNavigate();
 
+  const [allNotes, setAllNotes] = useState([]);
   const [notes, setNotes] = useState([]);
   const [query, setQuery] = useState("");
 
@@ -216,12 +217,20 @@ function MyNotes() {
     setQuery(e.target.value);
   };
 
+  const filterNotes = (query) => {
+    if (query.trim() === "") {
+      setNotes(AllNotes);
+    } else {
+      const filterNotes = allNotes.filter(note => note.title);
+      setNotes(filterNotes); 
+    }
+  };
+  
+  // const search = async () => {
+  //   const allNotesFromSearch = await searchByTitle(query);
+  //   setNotes(allNotesFromSearch);
 
-  const search = async () => {
-    const allNotesFromSearch = await searchByTitle(query);
-    setNotes(allNotesFromSearch);
-
-  }
+  // }
 
   const sortNotesByCategory = async () => {
     const allNotesSorted = await sortByCategory();
@@ -244,6 +253,7 @@ function MyNotes() {
   const fetchAllNotes = async () => {
     const allNotes = await readAllNotes();
     console.log(allNotes);
+    setAllNotes(allNotes);
     setNotes(allNotes);
   };
 
@@ -251,6 +261,10 @@ function MyNotes() {
     fetchAllNotes();
 
   }, []);
+
+  useEffect(() => {
+    filterNotes(query);
+  }, [query, allNotes]);
 
   return (
     <PageContainer>
