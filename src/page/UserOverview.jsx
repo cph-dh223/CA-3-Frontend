@@ -13,6 +13,7 @@ export default function UserOverview() {
   const [users, setUsers] = useState([]);
   
   const [userToEdit, setuserToEdit] = useState({});
+  const [userRolesBeforeEdit, setUserRolesBeforeEdit] = useState([]);
   
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState("");
@@ -22,12 +23,16 @@ export default function UserOverview() {
   const [success, setSuccess] = useState("");
 
   
-  //const [confirmPassword, setConfirmPassword] = useState("");
+
   
+  //const [confirmPassword, setConfirmPassword] = useState("");
+
 
   useEffect(() => {
     fetchUsers();
   }, []);
+
+
 
   async function deleteUser(email) {
     setSuccess("");
@@ -47,7 +52,7 @@ export default function UserOverview() {
     console.log("User email, password and roles before edit: " + userJustEdited.email + " " + userJustEdited.password + " " + userJustEdited.roles);
 
     if (pswOrRoles === "password") {
-     
+    
       //setUserThatHasBeenEdited({ ...userThatHasBeenEdited, password: password });
       setSuccess("");
       setError("");
@@ -61,6 +66,7 @@ export default function UserOverview() {
       }
       setConfirmPassword("");
       setPassword("");
+      
     } else {
     
       delete userJustEdited.password;
@@ -117,6 +123,7 @@ export default function UserOverview() {
           setRole={setRole}
           password={password}
           setPassword={setPassword}
+          userRolesBeforeEdit={userRolesBeforeEdit}
         />
       </StyledUserForm>
       <br></br>
@@ -126,6 +133,7 @@ export default function UserOverview() {
           users={users}
           deleteUser={deleteUser}
           setUserToEdit={setuserToEdit}
+          setUserRolesBeforeEdit={setUserRolesBeforeEdit}
           
         />
       </StyledUserTable>

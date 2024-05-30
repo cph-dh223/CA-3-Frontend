@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-export default function UserForm({ updateUser, userToEdit, setUserToEdit, error , confirmPassword, setConfirmPassword, setError, success, setSuccess, role, setRole, password, setPassword}) {
+export default function UserForm({ updateUser, userToEdit, setUserToEdit, error , confirmPassword, setConfirmPassword, setError, success, setSuccess, role, setRole, password, setPassword, userRolesBeforeEdit}) {
   
-  //const [userWithPassword, setUserWithPassword] = useState({ ...userToEdit });
-  //const [userWithRoles, setUserWithRoles] = useState({ ...userToEdit });
-  const blankUser = { email: "", password: "", roles: [] };
+
   const [showPassword, setShowPassword] = useState(false);
   
-  //console.log(userToEdit.roles)
-
 
 const handlePasswordChange = (e) =>{
   setPassword(e.target.value);
@@ -24,37 +20,10 @@ const handleConfirmPasswordChange = (e) =>{
 
 const handleRolesChange = (e) =>{
   setRole(e.target.value)
-  setUserToEdit((prevUser) => ({...prevUser, roles: [...prevUser.roles, e.target.value]}));
+  setUserToEdit((prevUser) => ({...prevUser, roles: [...userRolesBeforeEdit, e.target.value]}));
+  
 }
 
-
-
-/*
-  const handleChange = (e) => {
-    setSuccess("");
-    setError("");
-    if (e.target.id === "confirmPassword") {
-      setConfirmPassword(e.target.value);
-      
-    }
-    else if (e.target.id === "roles") {
-      if (!userWithRoles.roles.includes(e.target.value)) {
-        setUserWithRoles({ ...userWithRoles, roles: [...userWithRoles.roles, e.target.value] });
-      } else {
-        setError("Role already exists");
-      }
-    } else {
-      setUserWithPassword({ ...userWithPassword, [e.target.id]: e.target.value });
-      console.log(e.target.id, e.target.value)
-    }
-  };
-
-  */
-  useEffect(() => {
-    //setUserWithPassword(userToEdit);
-    //setUserWithRoles(userToEdit);
-    //setConfirmPassword(userToEdit.password);
-  }, [userToEdit]);
 
   return (
     <>
@@ -86,7 +55,7 @@ const handleRolesChange = (e) =>{
         <br></br>
         <label htmlFor="roles">Role </label>
         <br></br>
-        <select id="roles" onChange={handleRolesChange} value={role}>
+        <select id="roles" onChange={handleRolesChange} value={role} disabled={!userToEdit.email}>
           <option value="">Add role</option>
           <option value="user">user</option>
           <option value="admin">admin</option>
@@ -96,6 +65,7 @@ const handleRolesChange = (e) =>{
           onClick={(e) => {
             e.preventDefault();
             updateUser(userToEdit, "password");
+            setUserToEdit({});
           }}
           disabled={!userToEdit.email || password === ""}
         >
@@ -105,7 +75,8 @@ const handleRolesChange = (e) =>{
           onClick={(e) => {
             e.preventDefault();
             updateUser(userToEdit, "roles");
-            setRole("")
+            setRole("");
+            setUserToEdit({});
           }}
           disabled={!userToEdit.email || role === ""}
         >
