@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../services/apiFacade";
+import backgroundImage from "/src/img/and-machines-vqTWfa4DjEk-unsplash.jpg"; //CHANGE BACKGROUND IMAGE
 
 export default function CreateUser({ setUserJustCreated }) {
   const navigate = useNavigate();
@@ -49,103 +50,177 @@ export default function CreateUser({ setUserJustCreated }) {
   };
 
   return (
-    <StyledLoginMainDiv>
-      <StyledBackToLoginButton onClick={()=> (navigate("/login"))}>
-        Go back to login
-      </StyledBackToLoginButton>
+    <>
+      <LoginWrapper>
+        <LoginPage>
 
-      <StyledForm onSubmit={handleSubmit}>
-        <StyledLabel>
-          Email:
-          <StyledInput
-            type="email"
-            value={email}
-            onChange={handleEmailChange}
-            required
-          />
-        </StyledLabel>
-        <br></br>
-        <StyledLabel>
-          Password:
-          <StyledInput
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            required
-          />
-        </StyledLabel>
-        <br></br>
-        <StyledLabel>
-          Confirm password:
-          <StyledInput
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-            required
-          />
-        </StyledLabel>
-        <br></br>
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <StyledButton type="submit">Create User</StyledButton>
-      </StyledForm>
-    </StyledLoginMainDiv>
+          <Styledwrapper>
+          <h1>Sign Up</h1>
+            <form onSubmit={handleSubmit}>
+              <StyledInputBox>
+                <input
+                  type="email"
+                  value={email}
+                  placeholder="Email"
+                  onChange={handleEmailChange}
+                  required
+                />
+              </StyledInputBox>
+
+              <StyledInputBox>
+                <input
+                  placeholder="Password"
+                  type="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+                />
+              </StyledInputBox>
+
+              <StyledInputBox>
+                <input
+                  placeholder="Confirm Password"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  required
+                />
+              </StyledInputBox>
+              <br></br>
+              <StyledButtonWrapper>
+                <StyledButtonSubmit type="submit">
+                  Create User
+                </StyledButtonSubmit>
+
+                {/* <StyledButtonLogin type="submit">Login</StyledButtonLogin> */}
+              </StyledButtonWrapper>
+            </form>
+            {error && <p>{error}</p>}
+            <StyledRegisterLink>
+              <p>
+                Already have an account?
+                <a href={"/Login"}> Log in</a>  
+              </p>
+            </StyledRegisterLink>
+          </Styledwrapper>
+        </LoginPage>
+      </LoginWrapper>
+    </>
   );
 }
 
-const StyledLoginMainDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 200vb;
-`;
-const StyledBackToLoginButton = styled.button`
-  margin-bottom: 2vw;
-  background-color: black;
-  color: white;
-`;
+const Styledwrapper = styled.div`
+  width: 420px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
 
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-`;
-
-const StyledLabel = styled.label`
-  margin-bottom: 10px;
-  font-family: Arial, sans-serif;
-  color: #333;
-`;
-
-const StyledInput = styled.input`
-  margin-top: 5px;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
-
-const StyledButton = styled.button`
-  margin-top: 20px;
-  padding: 10px;
-  font-size: 16px;
-  color: #000000;
-  background-color: #25a5c2;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #186d80;
+  h1 {
+    font-size: 36px;
+    text-align: center;
   }
 `;
 
-const ErrorMessage = styled.p`
-  color: red;
-  font-size: 14px;
-  margin-top: 10px;
+const LoginWrapper = styled.div`
+  * {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
 `;
+
+const LoginPage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url(${backgroundImage}) no-repeat;
+  background-size: cover;
+  background-position: center;
+`;
+
+const StyledButtonWrapper = styled.div`
+  display: flex;
+`;
+const StyledButtonSubmit = styled.button`
+  width: 100%;
+  height: 45px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 20px;
+`;
+
+const StyledButtonLogin = styled.button`
+  width: 40%;
+  height: 45px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+  margin-left: auto;
+`;
+
+const StyledInputBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
+
+  input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 40px;
+    font-size: 18px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+
+    &::placeholder {
+      color: white;
+    }
+  }
+
+  i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+  }
+`;
+
+const StyledRegisterLink = styled.div`
+  font-size: 14.5px;
+  text-align: center;
+  margin: 20px 0 15px;
+
+  p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  p a:hover {
+    text-decoration: underline;
+  }
+`;
+
+//--------------------------- OLD STYLES ------------------------------
