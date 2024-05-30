@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   readAllNotes,
-  searchByTitle,
-  sortByCategory,
-  sortByDate,
-  sortByTitle,
   deleteNote,
   updateNote,
 } from "../services/noteService";
@@ -181,18 +177,19 @@ function MyNotes() {
   */
 
 
+
   const sortNotesByCategory = async () => {
-    const allNotesSorted = await sortByCategory();
+    const allNotesSorted = [...notes].sort((n1, n2) => n1.category.localeCompare(n2.category));
     setNotes(allNotesSorted);
   };
 
   const sortNotesByTitle = async () => {
-    const allNotesSorted = await sortByTitle();
+    const allNotesSorted = [...notes].sort((n1, n2) => n1.title.localeCompare(n2.title));
     setNotes(allNotesSorted);
   };
 
   const sortNotesByDate = async () => {
-    const allNotesSorted = await sortByDate();
+    const allNotesSorted = [...notes].sort((n1, n2) => n1.date.localeCompare(n2.date));
     setNotes(allNotesSorted);
   };
 

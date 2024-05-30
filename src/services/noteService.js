@@ -93,6 +93,7 @@ const deleteNote = async (note) => {
   }
 };
 
+/*
 const searchByTitle = async (seachString) => {
   try {
     const token = localStorage.getItem("token");
@@ -139,11 +140,9 @@ const sortByFetch = async (endURL) => {
   }
 };
 
+*/
 export {
-  searchByTitle,
-  sortByCategory,
-  sortByTitle,
-  sortByDate,
+
   createNote,
   readNote,
   updateNote,
