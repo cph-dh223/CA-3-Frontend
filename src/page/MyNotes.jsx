@@ -12,6 +12,7 @@ import {
 } from "../services/noteService";
 import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import AddNote from "../page/AddNote";
 
 Modal.setAppElement("#root");
 
@@ -193,9 +194,11 @@ const Note = ({ note, handleDelete, handleUpdateNote }) => {
 
 function MyNotes() {
   const navigate = useNavigate();
+  const [addNote, setAddNote] = useState(false);
 
   const [notes, setNotes] = useState([]);
   const [query, setQuery] = useState("");
+  const [addNoteModalIsOpen, setAddNoteModalIsOpen] = useState(false);
 
   const handleSortChange = (event) => {
     const selectedOption = event.target.value;
@@ -262,6 +265,32 @@ function MyNotes() {
 
   return (
     <PageContainer>
+      <Modal
+        className="modal"
+        isOpen={addNoteModalIsOpen}
+        onRequestClose={() => {
+          setAddNoteModalIsOpen(false);
+          setAddNote(false);
+        }}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.617)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "100%",
+          },
+        }}
+      >
+        <AddNotePopUp>
+          <i
+            className="bx bx-x"
+            onClick={() => setAddNoteModalIsOpen(false)}
+          ></i>
+          <AddNote setAddNoteModalIsOpen={setAddNoteModalIsOpen} setNotes={setNotes}/>
+        </AddNotePopUp>
+      </Modal>
       <DivForSearchBarAndSortButtons>
         <SearchWrapper>
           <SearchBar
@@ -271,10 +300,16 @@ function MyNotes() {
             onChange={handleQueryChange}
           ></SearchBar>
           <i className="bx bx-search" onClick={() => search}></i>
+          <AddNoteIcon>
+            <i
+              className="bx bxs-file-plus"
+              onClick={() => setAddNoteModalIsOpen(true)}
+            ></i>
+          </AddNoteIcon>
         </SearchWrapper>
         <SortSelectWrapper>
           <SortSelect onChange={handleSortChange}>
-            <option value="" disabled>
+            <option selected="selected" disabled>
               Sort by...
             </option>
             <option>Category</option>
@@ -283,7 +318,7 @@ function MyNotes() {
           </SortSelect>
         </SortSelectWrapper>
       </DivForSearchBarAndSortButtons>
-      <MyNotesBody $oneNote={notes.length===1}>
+      <MyNotesBody $oneNote={notes.length === 1}>
         {notes.map((note) => (
           <NoteContainer key={note.id}>
             <Note
@@ -337,6 +372,7 @@ const SortSelect = styled.select`
   justify-content: center;
   padding: 0.5vw;
   flex-grow: 0.1;
+  align-items: flex-start;
   //height: 20px;
   @media (max-width: 586px) {
     max-width: 90px;
@@ -357,6 +393,22 @@ const SearchBar = styled.input`
   border-radius: 40px;
   padding: 0 50px 0 20px;
   font-size: 16px;
+`;
+
+const AddNoteIcon = styled.div`
+  position: absolute;
+  right: 113%;
+  top: -20%;
+  z-index: 1;
+  .bxs-file-plus {
+    font-size: 2.25em;
+    color: #000000;
+    transition: all 0.5s ease;
+    &:hover {
+      cursor: pointer;
+      color: #12611e;
+    }
+  }
 `;
 
 const SearchWrapper = styled.div`
@@ -388,14 +440,22 @@ const SearchWrapper = styled.div`
 
 // MY NOTES GRID
 const MyNotesBody = styled.div`
+  margin: 12px 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 50px;
   justify-content: space-between;
-  width: 100%;
+  width: 90%;
   margin: 40px auto auto auto;
+
   justify-items: ${(props) => (props.$oneNote ? "center;" : "")};
   max-width: ${(props) => (props.$oneNote ? "30%;" : "")};
+  @media (max-width: 970px) {
+    max-width: ${(props) => (props.$oneNote ? "70%;" : "")};
+  }
+  @media (max-width: 570px) {
+    max-width: ${(props) => (props.$oneNote ? "100vh" : "")};
+  }
 `;
 
 // NOTE CONTAINERCARD
@@ -610,4 +670,30 @@ const PopupTitle = styled.h2`
   color: #ffffff;
   text-align: center;
   font-weight: 500;
+`;
+
+const AddNotePopUp = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 500px;
+  width: 600px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  i {
+    font-size: 3em;
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    width: 90vw;
+    height: 60vh;
+  }
 `;
