@@ -309,7 +309,7 @@ function MyNotes() {
             className="bx bx-x"
             onClick={() => setAddNoteModalIsOpen(false)}
           ></i>
-          <AddNote setAddNoteModalIsOpen={setAddNoteModalIsOpen} setNotes={setNotes}/>
+          <AddNote setAddNoteModalIsOpen={setAddNoteModalIsOpen} setNotes={setNotes} setAllNotes={setAllNotes}/>
         </AddNotePopUp>
       </Modal>
       <DivForSearchBarAndSortButtons>
@@ -521,7 +521,7 @@ const StyledDate = styled.div`
   font-size: 11px;
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
-  border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px 10px 0;
   padding: 5px 10px 5px 10px;
   color: black;
   margin: 10px;

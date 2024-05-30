@@ -87,11 +87,9 @@ const checkToken = () => {
           </ProtectedRoutes>
         }
       >
-        <Route path="/" element={<Notes />} />
+        <Route path="/" element={<MyNotes />} />
         <Route path="/adminPage" element={<UserOverview />} />
-        <Route path="/myNotes" element={<MyNotes />} />
         <Route path="/about" element={<About />} />
-        <Route path="/addNote" element={<AddNote />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
       <Route
