@@ -142,7 +142,6 @@ function MyNotes() {
     }
   };
 
-<<<<<<< HEAD
   const filterNotes = (query) => {
     if (query.trim() === "") {
       setNotes(AllNotes);
@@ -157,7 +156,7 @@ function MyNotes() {
   //   setNotes(allNotesFromSearch);
 
   // }
-=======
+
   const handleDelete = async (note) => {
     await deleteNote(note);
     setNotes(notes.filter((n) => n.id !== note.id));
@@ -174,11 +173,6 @@ function MyNotes() {
     setNotes(notes.filter((note) => note.title.includes(query)));
   };
 
-  const search = async () => {
-    const allNotesFromSearch = await searchByTitle(query);
-    setNotes(allNotesFromSearch);
-  };
->>>>>>> main
 
   const sortNotesByCategory = async () => {
     const allNotesSorted = await sortByCategory();
