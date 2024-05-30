@@ -110,6 +110,7 @@ const searchByTitle = async (seachString) => {
   }
 };
 
+/*
 const sortByCategory = () => {
   return sortByFetch("category");
 };
@@ -139,6 +140,7 @@ const sortByFetch = async (endURL) => {
   }
 };
 
+*/
 export {
   searchByTitle,
   sortByCategory,
