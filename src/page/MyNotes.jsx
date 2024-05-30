@@ -142,13 +142,19 @@ function MyNotes() {
     }
   };
 
+
   const filterNotes = (query) => {
-    if (query.trim() === "") {
-      setNotes(AllNotes);
+    
+    if (query === " " || query === "") {
+      setNotes([...allNotes]);
     } else {
-      const filterNotes = allNotes.filter(note => note.title);
-      setNotes(filterNotes); 
+      const filteredNotes = [...allNotes].filter(note => note.title.includes(query));
+      setNotes(filteredNotes); 
     }
+  }
+  const handleQueryChange = (e) => {
+    setQuery(e.target.value)
+    
   };
   
   // const search = async () => {
@@ -167,11 +173,12 @@ function MyNotes() {
     console.log(note);
     updateNote(note);
   };
-
+/*
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
-    setNotes(notes.filter((note) => note.title.includes(query)));
+    setNotes([...notes].filter((note) => note.title.includes(e.target.value)));
   };
+  */
 
 
   const sortNotesByCategory = async () => {
@@ -202,7 +209,7 @@ function MyNotes() {
 
   useEffect(() => {
     filterNotes(query);
-  }, [query, allNotes]);
+  }, [query]);
 
   return (
     <PageContainer>
@@ -214,7 +221,7 @@ function MyNotes() {
             value={query}
             onChange={handleQueryChange}
           ></SearchBar>
-          <i className="bx bx-search" onClick={() => search}></i>
+          <i className="bx bx-search"></i>
         </SearchWrapper>
         <SortSelectWrapper>
           <SortSelect onChange={handleSortChange}>
