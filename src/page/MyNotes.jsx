@@ -220,7 +220,7 @@ function MyNotes() {
     if (query === " " || query === "") {
       setNotes([...allNotes]);
     } else {
-      const filteredNotes = [...allNotes].filter(note => note.title.includes(query));
+      const filteredNotes = [...allNotes].filter(note => note.title.toLowerCase().includes(query.toLowerCase()));
       setNotes(filteredNotes); 
     }
   }
