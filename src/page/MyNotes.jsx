@@ -238,6 +238,7 @@ function MyNotes() {
   const handleDelete = async (note) => {
     await deleteNote(note);
     setNotes(notes.filter((n) => n.id !== note.id));
+    setAllNotes(allNotes.filter((n) => n.id !== note.id));
   };
 
   const handleUpdateNote = async (thisNote, content, title, category) => {
