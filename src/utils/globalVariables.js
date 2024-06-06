@@ -1,2 +1,2 @@
-export const BASE_URL = "http://api.ajken.dk/api";
+export const BASE_URL = "https://api.ajken.dk/api";
 
